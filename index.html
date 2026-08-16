@@ -310,15 +310,37 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   <div style="padding: 4px 16px 16px; font-size: 13px; color: var(--text3);">Take with water. Never skip Livogen-Z.</div>
   <div id="supps-content"></div>
   <div class="section-divider"></div>
-  <div style="margin: 0 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px;">
-    <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px;">📋 Iron Absorption Rules</div>
+  <div style="margin: 0 16px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px;">
+    <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px;">💊 Iron & Medicine Rules</div>
     <div style="font-size: 12px; color: var(--text2); line-height: 1.7;">
-      • Take Livogen-Z on empty stomach or with lemon water/orange juice<br>
-      • Never take with milk, tea, or coffee (blocks iron absorption)<br>
-      • Space D3 at least 2 hours away from Livogen-Z<br>
-      • Livogen-Z causes dark stools — this is completely normal<br>
-      • May cause mild constipation — increase water and fibre intake<br>
-      • D3 Must 60,000 IU: every Sunday, with food, for 8 weeks
+      • Take Livogen-Z on empty stomach with lemon water or OJ — never with tea, coffee, or milk<br>
+      • Dark stools after Livogen-Z is completely normal — it's the iron<br>
+      • D3 Must 60,000 IU: every Sunday only, with food, for 8 weeks<br>
+      • Bixibat 5mg: twice daily after meals × 3 months — do not skip<br>
+      • Duphalac 15ml: only at bedtime with a full glass of water<br>
+      • Space Livogen-Z at least 2 hours away from Duphalac/Bixibat
+    </div>
+  </div>
+  <div style="margin: 0 16px 10px; background: #E8F5EB; border: 1px solid #C5DFC9; border-radius: var(--radius-sm); padding: 14px;">
+    <div style="font-size: 13px; font-weight: 700; color: #2E6B3E; margin-bottom: 8px;">🛁 Sitz Bath Instructions</div>
+    <div style="font-size: 12px; color: #3D7A52; line-height: 1.7;">
+      • Fill a basin or bathtub with warm (not hot) water — hip-deep<br>
+      • Sit for 10–15 minutes, morning and night<br>
+      • Pat dry gently with soft cloth after — never rub<br>
+      • Heals the anal fissure, reduces pain and spasm<br>
+      • Continue until doctor advises to stop<br>
+      • Warm water helps relax the internal anal sphincter, speeding recovery
+    </div>
+  </div>
+  <div style="margin: 0 16px 10px; background: #FFF8E0; border: 1px solid #F0D888; border-radius: var(--radius-sm); padding: 14px;">
+    <div style="font-size: 13px; font-weight: 700; color: #8A6000; margin-bottom: 8px;">🥗 Diet Rules for Fissure & Constipation</div>
+    <div style="font-size: 12px; color: #7A5500; line-height: 1.7;">
+      • Drink minimum 8 glasses of water daily — critical for constipation<br>
+      • High fibre: fruits, vegetables, whole grains, oats, rajma, lentils<br>
+      • Avoid spicy food until fissure fully heals<br>
+      • Never strain during bowel movements — let Duphalac do the work<br>
+      • Avoid maida, refined foods, fried foods during treatment<br>
+      • Iron-rich foods: spinach, drumstick leaves, dates, jaggery, beetroot
     </div>
   </div>
 </div>
@@ -452,14 +474,24 @@ const NAME = 'akshaya';
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const FULL_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-// Hair wash days: Mon, Wed, Fri = wash; others = no-wash
-const HAIR_WASH_DAYS = [1,3,5]; // Mon, Wed, Fri (0=Sun)
+// Hair wash days: Wednesday and Sunday only
+const HAIR_WASH_DAYS = [3, 0]; // Wed=3, Sun=0
 
-// Lactic peel: once a week, Saturday nights only (not daily!)
+// Oil days: same as wash days (oil 30-60 min before wash)
+const OIL_DAYS = [3, 0]; // Wed and Sun only
+
+// Sunday = relaxed full routine, Wednesday = office day (tight timing — leaves 8:50 AM)
+const SUNDAY_WASH = 0;
+const WEDNESDAY_WASH = 3;
+
+// Hair mask: Sunday only (relaxed day, replaces conditioner)
+const HAIR_MASK_DAY = 0; // Sunday
+
+// Lactic peel: once a week, Saturday nights only
 const LACTIC_PEEL_DAYS = [6]; // Saturday
 
 // Azelaic acid: alternate nights (Tue, Thu, Sat)
-const AZELAIC_NIGHTS = [2,4,6];
+const AZELAIC_NIGHTS = [2, 4, 6];
 
 // Products inventory
 const ALL_PRODUCTS = [
@@ -486,25 +518,40 @@ const ALL_PRODUCTS = [
 // Routine phases
 function buildRoutine(dayIndex) {
   const isWashDay = HAIR_WASH_DAYS.includes(dayIndex);
+  const isOilDay = OIL_DAYS.includes(dayIndex);
+  const isSundayWash = dayIndex === SUNDAY_WASH;
+  const isWednesdayWash = dayIndex === WEDNESDAY_WASH;
+  const isHairMaskDay = dayIndex === HAIR_MASK_DAY;
   const isLacticDay = LACTIC_PEEL_DAYS.includes(dayIndex);
   const isAzelaicNight = AZELAIC_NIGHTS.includes(dayIndex);
   const phases = [];
 
+  // Timing context
+  const timingNote = isSundayWash
+    ? 'Sunday — relaxed day, no rush'
+    : isWednesdayWash
+    ? 'Wednesday office day — wake 7 AM, leave by 8:50 AM'
+    : 'Office day — wake 7 AM, leave by 8:50 AM';
+
   // ---- MORNING ----
-  if (isWashDay) {
+  if (isOilDay) {
+    const oilTiming = isSundayWash
+      ? '7:00 AM — apply oil, leave 45–60 min, wash by 8:30 AM'
+      : '7:00 AM — apply oil immediately after waking, leave 30 min, wash by 7:40 AM';
     phases.push({
       id: 'pre-bath-hair',
-      title: 'Pre-Bath Hair Prep',
-      time: '30–60 min before bath',
-      dot: '#C4714A',
+      title: 'Pre-Bath Hair Oil',
+      time: oilTiming,
       tasks: [
         {
           id: 'indulekha-oil',
           name: 'Indulekha Bringha Oil',
           badges: ['Hair', 'Pre-Bath'],
-          instruction: 'Section hair into 4 parts. Apply Indulekha oil directly to scalp using the built-in comb applicator. Massage gently in circular motion for 5–7 minutes. Leave on for 30–60 minutes only — do NOT leave overnight.',
+          instruction: isSundayWash
+            ? 'Apply immediately at 7:00 AM. Section hair into 4 parts. Apply using the built-in comb applicator directly to scalp. Massage gently in circular motion for 7–10 minutes. Leave for 45–60 minutes. Wash out by 8:30 AM. Sunday gives you the most time for oiling — use it well.'
+            : 'Apply immediately after waking at 7:00 AM — before anything else. Section hair into 4 parts. Apply using the comb applicator to scalp. Massage 5 minutes. Leave for exactly 30 minutes while you do your face routine and get ready. Wash out by 7:40 AM. Must leave by 8:50 AM.',
           qty: '6–8 drops per section, scalp only',
-          why: '<strong>Why:</strong> Bringharaj in Indulekha is clinically proven to reduce hair fall and stimulate follicles. Oil massage improves scalp blood circulation, delivering iron-rich blood to starved follicles. 30–60 min is sufficient — overnight oiling is avoided per your preference.',
+          why: '<strong>Why:</strong> Bringharaj clinically proven to reduce hair fall and stimulate follicles. Oil massage boosts scalp blood flow. Bangalore hard water damages hair cuticles — pre-wash oiling creates a protective barrier before mineral-laden water hits the hair shaft.',
           productId: 'indulekha'
         }
       ]
@@ -558,37 +605,42 @@ function buildRoutine(dayIndex) {
   });
 
   if (isWashDay) {
+    const washTime = isSundayWash ? '~8:30 AM' : '~7:40 AM (must finish by 8:00 AM)';
     phases.push({
       id: 'bath-wash',
       title: 'Bath & Hair Wash',
-      time: 'Shower time',
+      time: washTime,
       tasks: [
         {
           id: 'shower-gel-task',
           name: 'Dabur Gulabari Shower Gel',
           badges: ['Body', 'Shower'],
-          instruction: 'Apply to wet body using loofah or hands. Lather well, focusing on underarms and skin folds. Rinse thoroughly.',
+          instruction: 'Apply to wet body using loofah or hands. Lather well, focusing on underarms and skin folds. Rinse thoroughly with lukewarm water.',
           qty: '2–3 pumps',
-          why: '<strong>Why:</strong> Rose and jojoba oil keep skin moisturised while cleansing. Soap-free formula is gentler on dry skin.',
+          why: '<strong>Why:</strong> Rose and jojoba oil keep skin moisturised. Bangalore hard water is drying on skin — soap-free formula minimises further moisture loss.',
           productId: 'shower-gel'
         },
         {
           id: 'shampoo-task',
           name: "L'Oreal Absolut Repair Shampoo",
           badges: ['Hair', 'Wash Day'],
-          instruction: 'Rinse out the oil thoroughly first. Apply shampoo to wet hair, lather gently on scalp with fingertips (not nails). Leave for 2 minutes. Rinse well. You may shampoo twice if oil residue remains.',
+          instruction: 'Rinse oil out thoroughly first with lukewarm water. Apply shampoo to wet hair, lather gently on scalp with fingertips (not nails) for 2 minutes. Rinse well. ⚠️ Bangalore hard water tip: always do a final rinse with filtered or boiled cooled water if possible — mineral deposits from hard water coat the hair shaft and worsen hair fall.',
           qty: '2 pumps (coin-sized amount)',
-          why: '<strong>Why:</strong> Protein + Omega-9 formula rebuilds damaged hair shaft. Avoid scrubbing harshly — your scalp is sensitive and hair is fragile from iron deficiency.',
+          why: "<strong>Why:</strong> Protein + Omega-9 rebuilds damaged hair shaft. Bangalore's hard water (high calcium/magnesium) causes mineral buildup on scalp, blocks follicles, and accelerates hair loss — shampooing removes this buildup.",
           productId: 'loreal-shampoo'
         },
         {
           id: 'conditioner-task',
-          name: "L'Oreal Hyaluron Moisture Conditioner",
-          badges: ['Hair', 'Wash Day'],
-          instruction: 'After shampoo, apply conditioner to mid-lengths and ends only — NOT scalp. Leave for 2–3 minutes. Rinse with cold water to seal cuticles and add shine.',
-          qty: '1–2 pumps on lengths only',
-          why: '<strong>Why:</strong> Hyaluronic acid in this conditioner seals moisture into each strand, reducing frizz — the main issue visible in your hair. Cold rinse seals cuticles.',
-          productId: 'loreal-conditioner'
+          name: isSundayWash ? "Bare Anatomy Ultra Smoothing Hair Mask (Sunday)" : "L'Oreal Hyaluron Moisture Conditioner",
+          badges: ['Hair', isSundayWash ? 'Weekly Mask' : 'Wash Day'],
+          instruction: isSundayWash
+            ? 'Sunday deep treatment — skip regular conditioner today. After shampoo, apply Bare Anatomy mask generously to mid-lengths and ends only. Leave for 8–10 minutes. Rinse with cold water. Cold water final rinse is especially important in Bangalore to counteract hard water mineral deposits.'
+            : 'After shampoo, apply conditioner to mid-lengths and ends only — NOT scalp. Leave for 2–3 minutes. Rinse with cold water to seal cuticles. Cold rinse is important in Bangalore — it helps close the cuticle that hard water forces open.',
+          qty: isSundayWash ? '1–2 tablespoons, lengths and ends only' : '1–2 pumps on lengths only',
+          why: isSundayWash
+            ? '<strong>Why:</strong> Sunday weekly deep conditioning with Carbohydrate Complex + Niacinamide repairs the week\'s hard water and pollution damage from metro commute. Replaces regular conditioner.'
+            : '<strong>Why:</strong> Hyaluronic acid seals moisture into each strand. Hard water strips moisture — conditioner restores it. Cold rinse combats the mineral film left by Bangalore water.',
+          productId: isSundayWash ? 'bare-anatomy-mask' : 'loreal-conditioner'
         }
       ]
     });
@@ -641,6 +693,23 @@ function buildRoutine(dayIndex) {
   }
 
   phases.push({
+    id: 'sitz-morning-phase',
+    title: 'Morning Sitz Bath',
+    time: 'Before or after bath — 10–15 min',
+    tasks: [
+      {
+        id: 'sitz-bath-morning',
+        name: '🛁 Sitz Bath (Morning)',
+        badges: ['Body', 'Medical'],
+        instruction: 'Fill a basin or tub with comfortably warm water (not hot). Sit with hips submerged for 10–15 minutes. Pat the area dry gently with a soft cloth afterward — never rub. This is prescribed by your gastroenterologist for anal fissure healing.',
+        qty: '10–15 minutes, warm water only',
+        why: '<strong>Why:</strong> Warm water relaxes the internal anal sphincter, increases blood flow to the fissure area, and promotes healing. Twice daily sitz baths are the most effective non-surgical treatment for anal fissures.',
+        productId: 'shower-gel'
+      }
+    ]
+  });
+
+  phases.push({
     id: 'after-bath',
     title: 'After Bath',
     time: 'After drying off',
@@ -671,6 +740,15 @@ function buildRoutine(dayIndex) {
         qty: 'Thin layer',
         why: '<strong>Why:</strong> Ceramides rebuild the lip barrier, preventing dryness. Iron deficiency often causes dry lips — this helps.',
         productId: 'lip-balm'
+      },
+      {
+        id: 'bixibat-morning-task',
+        name: 'T. Bixibat 5mg',
+        badges: ['Med', 'After Breakfast'],
+        instruction: 'Take 1 tablet after breakfast with water. Prescribed by Dr. Tarun J George (SRM Prime, Gastroenterology) for chronic constipation. Take for full 3 months as prescribed — do not stop early even if constipation improves.',
+        qty: '1 tablet after breakfast',
+        why: '<strong>Why:</strong> Bixibat stimulates bile acid release in the gut, which draws water into the intestine and softens stool naturally. Preventing hard stools is critical for healing the anal fissure and preventing re-injury.',
+        productId: 'shower-gel'
       }
     ]
   });
@@ -767,25 +845,42 @@ function buildRoutine(dayIndex) {
     tasks: nightTasks
   });
 
-  // Hair mask — on wash days, optionally once a week (replace conditioner on Wednesday)
-  if (dayIndex === 3) { // Wednesday
-    phases.push({
-      id: 'hair-mask-phase',
-      title: 'Weekly Hair Mask (Wednesday)',
-      time: 'During shower — replaces conditioner',
-      tasks: [
-        {
-          id: 'bare-anatomy-mask-task',
-          name: 'Bare Anatomy Ultra Smoothing Hair Mask',
-          badges: ['Hair', 'Weekly Treatment'],
-          instruction: 'After shampooing. Apply generously to mid-lengths and ends. Leave for 5–10 minutes. Rinse with cold water. Skip conditioner on mask days — the mask is your conditioner.',
-          qty: '1–2 tablespoons',
-          why: '<strong>Why:</strong> Carbohydrate Complex + Niacinamide repair damaged hair shaft, restore smoothness, and reduce frizz. Weekly deep conditioning is essential for dry, iron-deficient hair.',
-          productId: 'bare-anatomy-mask'
-        }
-      ]
-    });
-  }
+  phases.push({
+    id: 'night-medicines',
+    title: 'Night Medicines',
+    time: 'After dinner / Before bed',
+    tasks: [
+      {
+        id: 'bixibat-night-task',
+        name: 'T. Bixibat 5mg',
+        badges: ['Med', 'After Dinner'],
+        instruction: 'Take 1 tablet after dinner with water. Prescribed by Dr. Tarun J George (SRM Prime) for chronic constipation. Complete the full 3-month course without skipping.',
+        qty: '1 tablet after dinner',
+        why: '<strong>Why:</strong> Bixibat works in the gut to increase water in the intestine, softening stool and reducing straining. Straining worsens the anal fissure — this medicine directly protects fissure healing.',
+        productId: 'shower-gel'
+      },
+      {
+        id: 'duphalac-night-task',
+        name: 'Syp. Duphalac 15ml',
+        badges: ['Med', 'Bedtime'],
+        instruction: 'Measure exactly 15ml using a measuring cup. Take at bedtime with a full glass of water. Do not take at the same time as Bixibat — space them by at least 1 hour. Duphalac takes 1–2 days to show effect — do not double dose.',
+        qty: '15ml (3 teaspoons) at bedtime',
+        why: '<strong>Why:</strong> Duphalac (lactulose) is a stool softener that draws water into the colon, making bowel movements soft and painless. Essential for fissure healing — hard stools reinjure the fissure every day.',
+        productId: 'shower-gel'
+      },
+      {
+        id: 'sitz-bath-night-task',
+        name: '🛁 Sitz Bath (Night)',
+        badges: ['Body', 'Medical'],
+        instruction: 'Fill a basin with comfortably warm water. Sit with hips submerged for 10–15 minutes before bed. Pat dry gently. The night sitz bath relaxes the sphincter before sleep, reducing overnight spasm and pain.',
+        qty: '10–15 minutes, warm water',
+        why: '<strong>Why:</strong> Night sitz bath promotes overnight healing of the fissure. The warm water effect lasts several hours, reducing the painful sphincter spasm that slows fissure recovery.',
+        productId: 'shower-gel'
+      }
+    ]
+  });
+
+  // Hair mask is now handled inside Sunday conditioner task above (isSundayWash check)
 
   return phases;
 }
@@ -827,7 +922,19 @@ function renderRoutine() {
 
   // Hair type display
   const htd = document.getElementById('hair-type-display');
-  htd.innerHTML = `<div class="hair-type-badge">${isWashDay ? '🚿 Hair Wash Day' : '💆 No-Wash Day'}</div>`;
+  const dayLabel = isSundayWash
+    ? '🌿 Sunday Wash Day — Full Relaxed Routine'
+    : isWednesdayWash
+    ? '🚿 Wednesday Wash Day — Office (Leave 8:50 AM)'
+    : '💆 No-Wash Day — Serum & Spray Only';
+  htd.innerHTML = `<div class="hair-type-badge">${dayLabel}</div>`;
+  
+  // Bangalore tip
+  if (isWashDay) {
+    const blrTip = document.getElementById('conflict-warnings');
+    const existing = blrTip.innerHTML;
+    blrTip.innerHTML = existing + `<div class="conflict-banner" style="background:#E8F0FF;border-color:#B8C8F0;color:#2A4080;">💧 <span>Bangalore hard water tip: Finish hair wash with cold water rinse. If possible, use filtered water for final rinse to prevent mineral buildup on scalp.</span></div>`;
+  }
 
   // Conflict warnings
   const cw = document.getElementById('conflict-warnings');
@@ -1025,9 +1132,14 @@ function resetDay() {
 // SUPPLEMENTS
 // ============================================================
 const SUPPLEMENTS = [
-  { id: 'livogen-breakfast', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ, empty stomach', timing: 'After Waking Up (Morning)' },
-  { id: 'd3-sunday', name: 'D3 Must 60,000 IU', dose: '1 tablet — with food, every Sunday only', timing: 'After Breakfast (Sundays Only)' },
-  { id: 'livogen-night', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ', timing: 'Before Bed (Night)' },
+  { id: 'sitz-morning', name: '🛁 Sitz Bath', dose: 'Sit in warm water (hip-deep) for 10–15 minutes. Helps heal anal fissure and relieves discomfort.', timing: 'Morning (After Waking Up)' },
+  { id: 'livogen-morning', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ, empty stomach. Never with tea or coffee.', timing: 'Morning (After Waking Up)' },
+  { id: 'bixibat-morning', name: 'T. Bixibat 5mg', dose: '1 tablet — after breakfast. Prescribed for chronic constipation × 3 months.', timing: 'After Breakfast' },
+  { id: 'd3-sunday', name: 'D3 Must 60,000 IU', dose: '1 tablet — with food, every Sunday only × 8 weeks.', timing: 'After Breakfast (Sundays Only)' },
+  { id: 'bixibat-night', name: 'T. Bixibat 5mg', dose: '1 tablet — after dinner. Keep gap of at least 2 hours from Duphalac.', timing: 'After Dinner' },
+  { id: 'duphalac-night', name: 'Syp. Duphalac 15ml', dose: '15ml syrup — at bedtime. Stool softener. Take with a full glass of water. Do not take with Bixibat simultaneously.', timing: 'Before Bed (Night)' },
+  { id: 'livogen-night', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ. Space 2 hours from Bixibat/Duphalac.', timing: 'Before Bed (Night)' },
+  { id: 'sitz-night', name: '🛁 Sitz Bath', dose: 'Sit in warm water (hip-deep) for 10–15 minutes before bed. Relieves fissure pain and promotes healing overnight.', timing: 'Before Bed (Night)' },
 ];
 
 function renderSupplements() {
@@ -1185,7 +1297,7 @@ async function getAIAdvice() {
         max_tokens: 1000,
         messages: [{
           role: 'user',
-          content: `You are a dermatologist advising Akshaya, 34F, who has rosacea-prone skin, iron deficiency anemia (Hb 9.8, Ferritin 3.7), Vitamin D deficiency (15.1). She uses: Cetaphil, Minimalist Niacinamide 5%, Azicalm 10% Azelaic Acid, Re'equil moisturiser, SPF50+. Hair: Indulekha oil, L'Oreal Absolut Repair shampoo, Minimalist 18% Hair Density Serum, Morning Lark Caffeine spray. Medicines: Livogen-Z twice daily, D3 60,000 IU weekly. Streak: ${streak} days. Journal (last 7): ${JSON.stringify(entries)}. Low stock: ${lowStock.join(', ') || 'none'}. Give personalised, specific, practical advice in 3-4 sentences.`
+          content: `You are a dermatologist advising Akshaya, 34F, who has rosacea-prone skin, iron deficiency anemia (Hb 9.8, Ferritin 3.7), Vitamin D deficiency (15.1), and anal fissure with chronic constipation (diagnosed by colonoscopy). She uses: Cetaphil, Minimalist Niacinamide 5%, Azicalm 10% Azelaic Acid, Re'equil moisturiser, SPF50+. Hair: Indulekha oil, L'Oreal Absolut Repair shampoo, Minimalist 18% Hair Density Serum, Morning Lark Caffeine spray. Medicines: Livogen-Z twice daily, D3 60,000 IU weekly, Bixibat 5mg twice daily, Duphalac 15ml nightly, Sitz bath twice daily. Streak: ${streak} days. Journal (last 7): ${JSON.stringify(entries)}. Low stock: ${lowStock.join(', ') || 'none'}. Give personalised, specific, practical advice in 3-4 sentences covering skin, hair, and gut health together.`
         }]
       })
     });
@@ -1250,12 +1362,14 @@ function updateStock(productId, value) {
 // GREETING & CLOCK & TIPS
 // ============================================================
 const TIPS = [
-  { icon: '🌅', text: 'Always apply SPF as your absolute last morning step — even indoors. Rosacea skin is photosensitive.' },
+  { icon: '🌅', text: 'Always apply SPF as your absolute last morning step — even indoors. Rosacea skin is photosensitive. Reapply sunstick on your metro commute.' },
   { icon: '💊', text: 'Take Livogen-Z with lemon juice or OJ, never with tea or coffee. Vitamin C doubles iron absorption.' },
-  { icon: '💧', text: 'Drink at least 8 glasses of water daily. Hydration is essential for scalp health and hair growth.' },
-  { icon: '🌙', text: 'Never skip double cleansing at night. SPF residue left overnight blocks your Niacinamide and Azicalm.' },
-  { icon: '💆', text: 'Massage your scalp gently for 5 minutes during oil application. This increases follicle blood flow.' },
-  { icon: '⚠️', text: 'Do not use Azicalm and Niacinamide on the same night — alternate them to avoid redness flare-ups.' },
+  { icon: '💧', text: 'Bangalore hard water is high in calcium and magnesium — it coats hair and worsens hair fall. Finish every hair wash with a cold water rinse to seal cuticles.' },
+  { icon: '🌙', text: 'Never skip double cleansing at night. Metro pollution + SPF left overnight blocks your Niacinamide and Azicalm from working.' },
+  { icon: '💆', text: 'Oil only on Wednesdays and Sundays — 30 min on office days, 60 min on Sundays. Quality oiling twice a week is better than frequent short oils.' },
+  { icon: '⚠️', text: 'Do not use Azicalm and Niacinamide on the same night — alternate them to avoid rosacea flare-ups.' },
+  { icon: '🚇', text: 'Carry your Earthrhythm sunstick in your bag. Reapply on your nose, cheeks and forehead before stepping out of the metro.' },
+  { icon: '🥗', text: 'Drink 2 glasses of water before leaving home at 8:50 AM — you\'ll struggle to drink enough during office hours.' },
 ];
 
 function updateGreeting() {
@@ -1267,11 +1381,31 @@ function updateGreeting() {
   document.getElementById('clock-text').textContent = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'});
 
   // Active banner
-  const bannerTitles = ['Night Care — Rest & Repair', 'Morning Skincare Time', 'Afternoon SPF Reapply', 'Evening Prep Time'];
-  const bannerSubs = ['Apply Minimalist serum and lip balm before sleep.', 'Start with Cetaphil on damp face.', 'Reapply sunstick on forehead, cheeks, and nose.', 'Start winding down — double cleanse soon.'];
-  const bi = h < 5 ? 0 : h < 12 ? 1 : h < 17 ? 2 : 3;
-  document.getElementById('banner-title').textContent = bannerTitles[bi];
-  document.getElementById('banner-sub').textContent = bannerSubs[bi];
+  const today = new Date().getDay();
+  const isOfficeMorning = h >= 7 && h < 9 && [1,2,3,4,5].includes(today);
+  const isWashToday = [3,0].includes(today);
+  let bannerTitle, bannerSub;
+  if (isOfficeMorning && isWashToday) {
+    bannerTitle = '⏰ Oil Applied? — Leave by 8:50 AM';
+    bannerSub = today === 3 ? 'Wed wash day — oil at 7 AM, wash by 7:40, face routine & leave by 8:50' : 'Wash day — oil at 7 AM, wash by 8:30, face routine done';
+  } else if (isOfficeMorning) {
+    bannerTitle = '⏰ Office Morning — Quick Routine';
+    bannerSub = 'Face routine + Morning Lark spray. Leave by 8:50 AM. Sunstick in your bag!';
+  } else if (h < 5) {
+    bannerTitle = 'Night Care — Rest & Repair';
+    bannerSub = 'Apply Minimalist serum and lip balm before sleep.';
+  } else if (h < 12) {
+    bannerTitle = 'Morning Skincare Time';
+    bannerSub = 'Start with Cetaphil on damp face. SPF last step.';
+  } else if (h < 17) {
+    bannerTitle = '🚇 Metro Commute — SPF Check';
+    bannerSub = 'Reapply sunstick on forehead, cheeks, and nose before stepping out.';
+  } else {
+    bannerTitle = 'Evening Prep Time';
+    bannerSub = 'Double cleanse tonight — metro pollution + SPF must come off fully.';
+  }
+  document.getElementById('banner-title').textContent = bannerTitle;
+  document.getElementById('banner-sub').textContent = bannerSub;
 
   // Tip
   const tipIdx = Math.floor(h / 4) % TIPS.length;
