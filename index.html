@@ -238,6 +238,49 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .clock-text { font-size: 11px; color: var(--text3); margin-top: 2px; }
 .conflict-banner { margin: 0 16px 10px; background: #FFF8E0; border: 1px solid #F0D060; border-radius: 12px; padding: 10px 14px; font-size: 12px; color: #8A6000; display: flex; gap: 8px; align-items: flex-start; }
 .hair-type-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--pill-bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--accent); font-weight: 600; margin: 0 16px 12px; }
+/* PERIOD TRACKER */
+.period-wrap { padding: 12px 16px 20px; }
+.period-status-card { background: linear-gradient(135deg, #FDE8EE, #FFF0F4); border: 1px solid #F4C0CC; border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.period-status-icon { font-size: 36px; flex-shrink: 0; }
+.period-status-label { font-size: 16px; font-weight: 700; color: #C0304A; margin-bottom: 3px; }
+.period-status-sub { font-size: 12px; color: #A05060; line-height: 1.5; }
+.period-iron-alert { background: #FFF3E0; border: 1.5px solid #FFB74D; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: #7A4000; line-height: 1.6; margin-bottom: 12px; }
+.period-calendar-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow); }
+.period-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.period-cal-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text); font-weight: 500; }
+.period-cal-nav { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--text2); }
+.period-cal-days-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px; }
+.period-cal-days-header div { text-align: center; font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; padding: 4px 0; }
+.period-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.cal-day { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all 0.15s; position: relative; }
+.cal-day:active { transform: scale(0.9); }
+.cal-day.empty { cursor: default; }
+.cal-day.today { background: var(--accent); color: white; font-weight: 700; }
+.cal-day.period { background: #E8607A; color: white; font-weight: 600; }
+.cal-day.pms { background: #F4A0B0; color: #8B2040; }
+.cal-day.predicted-period { background: #FFE8EE; color: #C0304A; border: 1.5px dashed #E8607A; }
+.cal-day.predicted-pms { background: #FFF0F4; color: #C0304A; border: 1.5px dashed #F4A0B0; }
+.cal-day.other-month { opacity: 0.3; }
+.period-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.period-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); }
+.period-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.period-log-section { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
+.period-log-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.period-log-sub { font-size: 12px; color: var(--text3); margin-bottom: 12px; line-height: 1.5; }
+.period-log-btn { width: 100%; padding: 12px; background: #E8607A; border: none; border-radius: var(--radius-sm); color: white; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-bottom: 8px; }
+.period-log-btn-sec { width: 100%; padding: 12px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.period-info-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
+.period-info-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.period-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.period-info-stat { background: var(--surface2); border-radius: var(--radius-sm); padding: 10px 12px; }
+.period-info-stat-val { font-family: 'Playfair Display', serif; font-size: 22px; color: #E8607A; font-weight: 600; }
+.period-info-stat-label { font-size: 10px; color: var(--text3); margin-top: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+.period-tips-card { background: #FDE8EE; border: 1px solid #F4C0CC; border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
+.period-history { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
+.period-history-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.period-history-item:last-child { border-bottom: none; }
+.period-history-date { font-size: 13px; color: var(--text); font-weight: 500; }
+.period-history-duration { font-size: 11px; color: var(--text3); }
 </style>
 </head>
 <body>
@@ -451,7 +494,89 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
     Stock
   </div>
+  <div class="nav-item" onclick="showPage('page-period')" id="nav-period">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8c-1.5 0-3 .5-3 2.5S12 14 12 16s-1.5 2.5-3 2.5"/><path d="M15 8c0 0 1.5 1 1.5 3.5S12 14 12 16"/></svg>
+    Cycle
+  </div>
 </nav>
+
+<!-- PERIOD TRACKER PAGE -->
+<div class="page" id="page-period">
+  <div class="page-title">Cycle Tracker 🌸</div>
+  <div class="period-wrap">
+
+    <!-- Status card -->
+    <div class="period-status-card" id="period-status-card">
+      <div class="period-status-icon" id="period-status-icon">🌸</div>
+      <div class="period-status-info">
+        <div class="period-status-label" id="period-status-label">Loading...</div>
+        <div class="period-status-sub" id="period-status-sub"></div>
+      </div>
+    </div>
+
+    <!-- Iron alert — shows during period -->
+    <div class="period-iron-alert" id="period-iron-alert" style="display:none">
+      ⚠️ <strong>Iron Alert:</strong> You are on your period. Your ferritin is already critically low (3.7). Do NOT miss Livogen-Z today — take both doses without fail. Eat iron-rich foods: spinach, dates, jaggery, rajma. Drink extra water.
+    </div>
+
+    <!-- Calendar -->
+    <div class="period-calendar-wrap">
+      <div class="period-cal-header">
+        <div class="period-cal-nav" onclick="prevMonth()">‹</div>
+        <div class="period-cal-title" id="period-cal-title">August 2026</div>
+        <div class="period-cal-nav" onclick="nextMonth()">›</div>
+      </div>
+      <div class="period-cal-days-header">
+        <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+      </div>
+      <div class="period-cal-grid" id="period-cal-grid"></div>
+    </div>
+
+    <!-- Legend -->
+    <div class="period-legend">
+      <div class="period-legend-item"><div class="period-legend-dot" style="background:#E8607A"></div>Period day</div>
+      <div class="period-legend-item"><div class="period-legend-dot" style="background:#F4A0B0"></div>PMS days</div>
+      <div class="period-legend-item"><div class="period-legend-dot" style="background:#C4714A"></div>Today</div>
+      <div class="period-legend-item"><div class="period-legend-dot" style="background:#E8F3FF; border:1px solid #7B9CBD"></div>Predicted</div>
+    </div>
+
+    <!-- Log period start -->
+    <div class="period-log-section">
+      <div class="period-log-title">Log Period</div>
+      <div class="period-log-sub">Tap to mark today as period start. This updates all future predictions.</div>
+      <button class="period-log-btn" onclick="logPeriodStart()">🩸 Period Started Today</button>
+      <button class="period-log-btn-sec" onclick="logPeriodEnd()">✅ Period Ended Today</button>
+    </div>
+
+    <!-- Cycle info -->
+    <div class="period-info-card">
+      <div class="period-info-title">📊 Your Cycle</div>
+      <div class="period-info-grid" id="period-info-grid"></div>
+    </div>
+
+    <!-- PMS & period tips -->
+    <div class="period-tips-card">
+      <div class="period-info-title">💡 Period Care Tips</div>
+      <div style="font-size:12px; color:var(--text2); line-height:1.8; margin-top:8px;">
+        • Take both Livogen-Z doses without fail during period — blood loss worsens anemia<br>
+        • Eat iron-rich foods: spinach, drumstick leaves, dates, jaggery, beetroot, rajma<br>
+        • Drink lemon water with Livogen-Z — Vitamin C doubles absorption<br>
+        • Avoid tea and coffee during period days — they block iron<br>
+        • Increase water intake — helps with bloating and constipation<br>
+        • Sitz bath continues as normal — warm water also relieves period cramps<br>
+        • On heavy flow days, skip Indulekha oil — rest the scalp<br>
+        • Continue all skincare — hormonal changes can trigger rosacea flares
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="period-history">
+      <div class="period-info-title">📅 Past Periods</div>
+      <div id="period-history-list" style="margin-top:8px;"></div>
+    </div>
+
+  </div>
+</div>
 
 <!-- REPLACE MODAL -->
 <div class="modal-overlay" id="replace-modal">
@@ -1485,6 +1610,288 @@ function triggerConfetti() {
 }
 
 // ============================================================
+// PERIOD TRACKER
+// ============================================================
+const CYCLE_LENGTH = 32;
+const PERIOD_DURATION = 5; // average period days
+const PMS_DAYS_BEFORE = 5; // PMS starts 5 days before period
+
+let periodCalYear = new Date().getFullYear();
+let periodCalMonth = new Date().getMonth();
+
+function getPeriodData() { return getState('period_data', { starts: [], ends: [] }); }
+function setPeriodData(d) { setState('period_data', d); }
+
+function logPeriodStart() {
+  const today = getTodayKey();
+  const data = getPeriodData();
+  if (!data.starts.includes(today)) {
+    data.starts.unshift(today);
+    data.starts = data.starts.slice(0, 24); // keep last 24
+    setPeriodData(data);
+  }
+  renderPeriodTracker();
+  alert('✅ Period start logged for today.');
+}
+
+function logPeriodEnd() {
+  const today = getTodayKey();
+  const data = getPeriodData();
+  if (!data.ends.includes(today)) {
+    data.ends.unshift(today);
+    data.ends = data.ends.slice(0, 24);
+    setPeriodData(data);
+  }
+  renderPeriodTracker();
+  alert('✅ Period end logged for today.');
+}
+
+function getLastPeriodStart() {
+  const data = getPeriodData();
+  if (!data.starts.length) return null;
+  return new Date(data.starts[0]);
+}
+
+function getPredictedDates() {
+  // Returns sets of date strings for period and PMS days (actual + predicted)
+  const data = getPeriodData();
+  const periodDays = new Set();
+  const pmsDays = new Set();
+  const predictedPeriod = new Set();
+  const predictedPms = new Set();
+
+  // Mark actual logged period days
+  data.starts.forEach((startStr, idx) => {
+    const start = new Date(startStr);
+    // Find corresponding end
+    const endStr = data.ends.find(e => {
+      const ed = new Date(e);
+      return ed >= start && ed <= new Date(start.getTime() + 10 * 86400000);
+    });
+    const duration = endStr
+      ? Math.round((new Date(endStr) - start) / 86400000) + 1
+      : PERIOD_DURATION;
+    for (let i = 0; i < duration; i++) {
+      const d = new Date(start);
+      d.setDate(d.getDate() + i);
+      periodDays.add(d.toISOString().split('T')[0]);
+    }
+    // PMS days before this period
+    for (let i = 1; i <= PMS_DAYS_BEFORE; i++) {
+      const d = new Date(start);
+      d.setDate(d.getDate() - i);
+      pmsDays.add(d.toISOString().split('T')[0]);
+    }
+  });
+
+  // Predict next 6 cycles from last known start
+  const lastStart = getLastPeriodStart();
+  if (lastStart) {
+    for (let cycle = 1; cycle <= 6; cycle++) {
+      const nextStart = new Date(lastStart);
+      nextStart.setDate(nextStart.getDate() + CYCLE_LENGTH * cycle);
+      for (let i = 0; i < PERIOD_DURATION; i++) {
+        const d = new Date(nextStart);
+        d.setDate(d.getDate() + i);
+        const key = d.toISOString().split('T')[0];
+        if (!periodDays.has(key)) predictedPeriod.add(key);
+      }
+      for (let i = 1; i <= PMS_DAYS_BEFORE; i++) {
+        const d = new Date(nextStart);
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().split('T')[0];
+        if (!pmsDays.has(key)) predictedPms.add(key);
+      }
+    }
+  }
+
+  return { periodDays, pmsDays, predictedPeriod, predictedPms };
+}
+
+function renderPeriodCalendar() {
+  const { periodDays, pmsDays, predictedPeriod, predictedPms } = getPredictedDates();
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+
+  const title = new Date(periodCalYear, periodCalMonth, 1)
+    .toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+  document.getElementById('period-cal-title').textContent = title;
+
+  const firstDay = new Date(periodCalYear, periodCalMonth, 1).getDay();
+  const daysInMonth = new Date(periodCalYear, periodCalMonth + 1, 0).getDate();
+
+  let html = '';
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    html += `<div class="cal-day empty"></div>`;
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${periodCalYear}-${String(periodCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    let cls = 'cal-day';
+    if (dateStr === todayStr) cls += ' today';
+    else if (periodDays.has(dateStr)) cls += ' period';
+    else if (pmsDays.has(dateStr)) cls += ' pms';
+    else if (predictedPeriod.has(dateStr)) cls += ' predicted-period';
+    else if (predictedPms.has(dateStr)) cls += ' predicted-pms';
+    html += `<div class="${cls}">${d}</div>`;
+  }
+  document.getElementById('period-cal-grid').innerHTML = html;
+}
+
+function prevMonth() {
+  periodCalMonth--;
+  if (periodCalMonth < 0) { periodCalMonth = 11; periodCalYear--; }
+  renderPeriodCalendar();
+}
+function nextMonth() {
+  periodCalMonth++;
+  if (periodCalMonth > 11) { periodCalMonth = 0; periodCalYear++; }
+  renderPeriodCalendar();
+}
+
+function renderPeriodStatus() {
+  const { periodDays, pmsDays, predictedPeriod, predictedPms } = getPredictedDates();
+  const todayStr = getTodayKey();
+  const lastStart = getLastPeriodStart();
+
+  let icon, label, sub;
+  const ironAlert = document.getElementById('period-iron-alert');
+
+  if (periodDays.has(todayStr)) {
+    icon = '🩸'; label = 'Period Day';
+    // Find day number
+    const data = getPeriodData();
+    const start = new Date(data.starts[0]);
+    const dayNum = Math.round((new Date(todayStr) - start) / 86400000) + 1;
+    sub = `Day ${dayNum} of your period. Take both Livogen-Z doses today — blood loss worsens your anemia.`;
+    ironAlert.style.display = 'block';
+  } else if (pmsDays.has(todayStr)) {
+    icon = '🌧️'; label = 'PMS Phase';
+    sub = 'Your period is coming soon. Stay hydrated, eat iron-rich foods, keep up with medicines.';
+    ironAlert.style.display = 'none';
+  } else if (predictedPeriod.has(todayStr)) {
+    icon = '🔮'; label = 'Predicted Period Day';
+    sub = 'Period expected today based on your 32-day cycle. Log it when it starts.';
+    ironAlert.style.display = 'block';
+  } else if (predictedPms.has(todayStr)) {
+    icon = '🌤️'; label = 'Predicted PMS Phase';
+    sub = 'Period expected in a few days. Stock up on iron-rich foods and stay hydrated.';
+    ironAlert.style.display = 'none';
+  } else {
+    // Days until next period
+    if (lastStart) {
+      const next = new Date(lastStart);
+      next.setDate(next.getDate() + CYCLE_LENGTH);
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      let diff = Math.round((next - today) / 86400000);
+      // Find nearest predicted period
+      for (let i = 0; i < 200; i++) {
+        const check = new Date(today);
+        check.setDate(check.getDate() + i);
+        const checkStr = check.toISOString().split('T')[0];
+        if (predictedPeriod.has(checkStr) || periodDays.has(checkStr)) { diff = i; break; }
+      }
+      icon = '🌸'; label = diff <= 0 ? 'Cycle Complete' : `${diff} days to next period`;
+      sub = diff <= 3 ? 'Period coming soon — stock up on iron-rich foods.' : 'You are in your safe phase. Keep up with medicines and routine.';
+    } else {
+      icon = '🌸'; label = 'Log your period to get predictions';
+      sub = 'Tap "Period Started Today" when your period begins.';
+    }
+    ironAlert.style.display = 'none';
+  }
+
+  document.getElementById('period-status-icon').textContent = icon;
+  document.getElementById('period-status-label').textContent = label;
+  document.getElementById('period-status-sub').textContent = sub;
+}
+
+function renderPeriodInfo() {
+  const data = getPeriodData();
+  const lastStart = getLastPeriodStart();
+
+  // Calculate average cycle from logged starts
+  let avgCycle = CYCLE_LENGTH;
+  if (data.starts.length >= 2) {
+    let total = 0;
+    for (let i = 0; i < data.starts.length - 1; i++) {
+      const d1 = new Date(data.starts[i]);
+      const d2 = new Date(data.starts[i+1]);
+      total += Math.abs(Math.round((d1-d2)/86400000));
+    }
+    avgCycle = Math.round(total / (data.starts.length - 1));
+  }
+
+  // Next period prediction
+  let nextPeriodStr = '—';
+  if (lastStart) {
+    const next = new Date(lastStart);
+    next.setDate(next.getDate() + avgCycle);
+    nextPeriodStr = next.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  }
+
+  // PMS start
+  let pmsStartStr = '—';
+  if (lastStart) {
+    const next = new Date(lastStart);
+    next.setDate(next.getDate() + avgCycle - PMS_DAYS_BEFORE);
+    pmsStartStr = next.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  }
+
+  document.getElementById('period-info-grid').innerHTML = `
+    <div class="period-info-stat">
+      <div class="period-info-stat-val">${avgCycle}</div>
+      <div class="period-info-stat-label">Cycle length (days)</div>
+    </div>
+    <div class="period-info-stat">
+      <div class="period-info-stat-val">${PERIOD_DURATION}</div>
+      <div class="period-info-stat-label">Period duration (days)</div>
+    </div>
+    <div class="period-info-stat">
+      <div class="period-info-stat-val" style="font-size:16px">${nextPeriodStr}</div>
+      <div class="period-info-stat-label">Next period (predicted)</div>
+    </div>
+    <div class="period-info-stat">
+      <div class="period-info-stat-val" style="font-size:16px">${pmsStartStr}</div>
+      <div class="period-info-stat-label">PMS starts (predicted)</div>
+    </div>
+  `;
+}
+
+function renderPeriodHistory() {
+  const data = getPeriodData();
+  const list = document.getElementById('period-history-list');
+  if (!data.starts.length) {
+    list.innerHTML = '<div style="font-size:12px;color:var(--text3);font-style:italic;">No periods logged yet.</div>';
+    return;
+  }
+  list.innerHTML = data.starts.slice(0, 6).map((startStr, idx) => {
+    const endStr = data.ends.find(e => {
+      const ed = new Date(e);
+      const st = new Date(startStr);
+      return ed >= st && ed <= new Date(st.getTime() + 10 * 86400000);
+    });
+    const duration = endStr
+      ? Math.round((new Date(endStr) - new Date(startStr)) / 86400000) + 1 + ' days'
+      : 'Ongoing / not logged';
+    const startDate = new Date(startStr).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+    return `<div class="period-history-item">
+      <div>
+        <div class="period-history-date">🩸 ${startDate}</div>
+        <div class="period-history-duration">${duration}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPeriodTracker() {
+  renderPeriodStatus();
+  renderPeriodCalendar();
+  renderPeriodInfo();
+  renderPeriodHistory();
+}
+
+// ============================================================
 // NAV
 // ============================================================
 function showPage(pageId) {
@@ -1501,6 +1908,7 @@ function showPage(pageId) {
   if (pageId === 'page-water') renderWater();
   if (pageId === 'page-journal') renderJournal();
   if (pageId === 'page-inventory') renderInventory();
+  if (pageId === 'page-period') renderPeriodTracker();
 }
 
 // ============================================================
@@ -1515,6 +1923,7 @@ function init() {
   renderDayTabs();
   renderRoutine();
   renderWater();
+  renderPeriodTracker();
 }
 
 init();
