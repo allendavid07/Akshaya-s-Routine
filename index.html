@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Akshaya — Daily Routine</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FDF6F0;
+  --surface: #FFFFFF;
+  --surface2: #FEF0E8;
+  --accent: #C4714A;
+  --accent2: #8BAF8C;
+  --accent3: #7B9CBD;
+  --text: #2C2016;
+  --text2: #6B5744;
+  --text3: #9E8070;
+  --border: #EDD9C8;
+  --card: #FFFFFF;
+  --nav: #FFFFFF;
+  --green: #5A9E6F;
+  --amber: #D4923A;
+  --red: #C44A4A;
+  --pill-bg: #F5E6D8;
+  --shadow: 0 2px 12px rgba(196,113,74,0.08);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+[data-theme="dark"] {
+  --bg: #1A1210;
+  --surface: #261C18;
+  --surface2: #311F18;
+  --accent: #E8926A;
+  --accent2: #8BAF8C;
+  --accent3: #7B9CBD;
+  --text: #F5E8DC;
+  --text2: #C4A088;
+  --text3: #8C6E58;
+  --border: #3D2820;
+  --card: #2A1E18;
+  --nav: #1E1410;
+  --pill-bg: #3D2820;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+.page { display: none; min-height: 100vh; padding-bottom: 80px; }
+.page.active { display: block; }
+
+/* NAV */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--nav); border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -4px 20px rgba(0,0,0,0.06); }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 4px 8px; cursor: pointer; color: var(--text3); transition: color 0.2s; font-size: 10px; font-weight: 500; letter-spacing: 0.02em; }
+.nav-item.active { color: var(--accent); }
+.nav-item svg { width: 22px; height: 22px; }
+
+/* HEADER */
+.header { padding: 16px 16px 0; }
+.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.greeting-block { }
+.greeting { font-size: 13px; color: var(--text3); font-weight: 400; }
+.name { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--text); font-weight: 500; line-height: 1.1; }
+.header-actions { display: flex; gap: 8px; align-items: center; }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); transition: all 0.2s; }
+.icon-btn:active { transform: scale(0.92); }
+.streak-pill { background: var(--pill-bg); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 4px; }
+.water-pill { background: #E8F3FF; border: 1px solid #C5DCF5; border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--accent3); display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.pills-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+
+/* PROGRESS BAR */
+.progress-block { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin: 0 16px 14px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text3); margin-bottom: 7px; }
+.progress-bar-bg { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #E8926A); border-radius: 3px; transition: width 0.5s ease; }
+
+/* TIP CARD */
+.tip-card { background: linear-gradient(135deg, var(--surface2), var(--surface)); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin: 0 16px 14px; display: flex; gap: 10px; align-items: flex-start; }
+.tip-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.tip-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.tip-label { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+
+/* DAY TABS */
+.day-tabs-wrap { overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; }
+.day-tabs-wrap::-webkit-scrollbar { display: none; }
+.day-tabs { display: flex; gap: 6px; width: max-content; }
+.day-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border); background: var(--surface); color: var(--text3); transition: all 0.2s; position: relative; white-space: nowrap; }
+.day-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+.day-tab.completed::after { content: '✓'; position: absolute; top: -4px; right: -4px; width: 14px; height: 14px; background: var(--green); color: white; border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+/* ACTIVE BANNER */
+.active-banner { margin: 0 16px 14px; background: linear-gradient(135deg, var(--accent), #D4845A); border-radius: 14px; padding: 14px 16px; color: white; }
+.active-banner-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 4px; }
+.active-banner-title { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.active-banner-sub { font-size: 12px; opacity: 0.85; }
+
+/* PHASE */
+.phase { margin: 0 16px 6px; }
+.phase-header { display: flex; align-items: center; gap: 8px; padding: 8px 0 8px; }
+.phase-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.phase-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); }
+.phase-line { flex: 1; height: 1px; background: var(--border); }
+.phase-time { font-size: 10px; color: var(--text3); font-weight: 500; }
+
+/* TASK CARD */
+.task-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.2s; user-select: none; }
+.task-card.done { opacity: 0.65; }
+.task-card.done .task-name { text-decoration: line-through; color: var(--text3); }
+.task-card-top { display: flex; align-items: flex-start; gap: 12px; padding: 13px 14px; }
+.task-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; margin-top: 1px; transition: all 0.2s; }
+.task-check.checked { background: var(--accent); border-color: var(--accent); }
+.task-check svg { width: 12px; height: 12px; color: white; }
+.task-content { flex: 1; min-width: 0; }
+.task-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.task-badges { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+.badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 10px; }
+.badge-hair { background: #F0EAF8; color: #7B5EA7; }
+.badge-face { background: #FEF0E8; color: #C4714A; }
+.badge-body { background: #E8F5EB; color: #3D8A52; }
+.badge-med { background: #FFF3E0; color: #E07C1E; }
+.badge-when { background: var(--pill-bg); color: var(--accent); }
+.badge-low { background: #FFF3E0; color: #E07C1E; }
+.badge-out { background: #FEECEC; color: #C44A4A; }
+.task-instruction { font-size: 12px; color: var(--text2); line-height: 1.55; margin-bottom: 8px; }
+.task-qty { border-left: 3px solid var(--accent); padding: 6px 10px; background: var(--surface2); border-radius: 0 8px 8px 0; margin-bottom: 8px; font-size: 12px; color: var(--text); font-weight: 500; }
+.task-why { font-size: 11px; color: var(--text3); line-height: 1.5; padding: 7px 10px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); }
+.task-why strong { color: var(--text2); }
+.stock-bar-wrap { padding: 0 14px 12px; }
+.stock-bar-label { font-size: 10px; color: var(--text3); margin-bottom: 4px; display: flex; justify-content: space-between; }
+.stock-bar-bg { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.stock-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
+.stock-green { background: var(--green); }
+.stock-amber { background: var(--amber); }
+.stock-red { background: var(--red); }
+
+/* HOLD RING */
+.hold-hint { text-align: center; font-size: 10px; color: var(--text3); padding: 0 16px 10px; margin-top: -4px; }
+
+/* SECTION RESET */
+.section-header { display: flex; align-items: center; justify-content: space-between; padding: 4px 16px 10px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+.reset-btn { font-size: 11px; color: var(--text3); border: 1px solid var(--border); background: var(--surface); padding: 4px 12px; border-radius: 20px; cursor: pointer; }
+
+/* SUPPLEMENTS */
+.supp-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin: 0 16px 8px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
+.supp-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
+.supp-check.checked { background: var(--accent2); border-color: var(--accent2); }
+.supp-info { flex: 1; }
+.supp-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.supp-dose { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.supp-timing { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 16px 6px; margin-top: 14px; }
+
+/* WATER PAGE */
+.water-page { padding: 20px 16px; }
+.water-ring-wrap { display: flex; flex-direction: column; align-items: center; margin: 20px 0; }
+.water-ring-svg { transform: rotate(-90deg); }
+.water-ring-label { position: absolute; display: flex; flex-direction: column; align-items: center; }
+.water-center { position: relative; width: 160px; height: 160px; display: flex; align-items: center; justify-content: center; }
+.water-big-num { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 600; color: var(--accent3); line-height: 1; }
+.water-of { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.glass-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0 0 16px; }
+.glass-item { aspect-ratio: 1; border-radius: 12px; border: 2px solid var(--border); background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 22px; }
+.glass-item.filled { background: #D6EEFF; border-color: var(--accent3); }
+.water-btns { display: flex; gap: 8px; margin-bottom: 16px; }
+.water-btn { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--surface); font-size: 13px; font-weight: 600; color: var(--text2); cursor: pointer; text-align: center; transition: all 0.2s; }
+.water-btn:active { transform: scale(0.96); }
+.water-btn.primary { background: var(--accent3); border-color: var(--accent3); color: white; }
+.water-tip { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: var(--text2); line-height: 1.55; }
+.water-tip strong { color: var(--accent3); }
+.goal-adjuster { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 12px; }
+.goal-adj-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.goal-adj-val { font-size: 13px; color: var(--text3); }
+.adj-btns { display: flex; gap: 8px; }
+.adj-btn { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--surface2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; color: var(--text2); font-weight: 600; }
+
+/* JOURNAL */
+.journal-wrap { padding: 16px; }
+.photo-reminder { background: linear-gradient(135deg, #F5EBF8, #EEE0F8); border: 1px solid #DBC8EC; border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; }
+.photo-reminder-title { font-size: 14px; font-weight: 700; color: #6B3FA0; margin-bottom: 4px; }
+.photo-reminder-sub { font-size: 12px; color: #8B5CC0; line-height: 1.5; }
+.photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.photo-slot { border: 2px dashed #C4A0E0; border-radius: 12px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; background: rgba(255,255,255,0.5); font-size: 11px; color: #8B5CC0; font-weight: 500; text-align: center; padding: 8px; transition: all 0.2s; }
+.photo-slot:active { transform: scale(0.97); }
+.emoji-rating { display: flex; gap: 8px; justify-content: center; margin: 16px 0 8px; }
+.emoji-btn { font-size: 26px; cursor: pointer; opacity: 0.4; transition: all 0.2s; }
+.emoji-btn.selected { opacity: 1; transform: scale(1.2); }
+.journal-textarea { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: var(--text); font-family: 'DM Sans', sans-serif; resize: none; outline: none; transition: border-color 0.2s; min-height: 90px; }
+.journal-textarea:focus { border-color: var(--accent); }
+.journal-save-btn { width: 100%; padding: 13px; background: var(--accent); border: none; border-radius: var(--radius-sm); color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s; }
+.journal-save-btn:active { opacity: 0.85; }
+.past-entries { margin-top: 20px; }
+.past-entry { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; }
+.past-entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.past-entry-date { font-size: 11px; color: var(--text3); font-weight: 500; }
+.past-entry-rating { font-size: 20px; }
+.past-entry-notes { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.ai-advice-btn { width: 100%; padding: 13px; background: linear-gradient(135deg, #7B5EA7, #9B6EC7); border: none; border-radius: var(--radius-sm); color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.ai-result { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 13px; color: var(--text2); line-height: 1.6; margin-top: 10px; }
+
+/* INVENTORY */
+.inventory-wrap { padding: 16px; }
+.inv-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin: 12px 0 8px; }
+.inv-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; box-shadow: var(--shadow); }
+.inv-card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.inv-emoji { font-size: 28px; flex-shrink: 0; }
+.inv-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.inv-cat { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.inv-pct { font-size: 12px; font-weight: 700; }
+.inv-slider { width: 100%; accent-color: var(--accent); cursor: pointer; height: 4px; }
+.inv-status { font-size: 10px; margin-top: 4px; font-weight: 600; }
+.reorder-banner { background: #FFF3E0; border: 1px solid #FFCC80; border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px; font-size: 13px; color: #E07C1E; font-weight: 600; display: flex; gap: 8px; align-items: center; }
+
+/* WEEKLY CHART */
+.weekly-chart { display: flex; align-items: flex-end; gap: 4px; height: 60px; margin: 12px 0; }
+.chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+.chart-bar { width: 100%; border-radius: 4px 4px 0 0; min-height: 3px; transition: height 0.4s ease; }
+.chart-label { font-size: 9px; color: var(--text3); font-weight: 500; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--surface); border-radius: 24px 24px 0 0; padding: 20px 20px 36px; width: 100%; max-height: 85vh; overflow-y: auto; }
+.modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--text3); margin-bottom: 16px; }
+.modal-input { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; margin-bottom: 10px; }
+.modal-input:focus { border-color: var(--accent); }
+.modal-btn { width: 100%; padding: 13px; background: var(--accent); border: none; border-radius: var(--radius-sm); color: white; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-bottom: 8px; }
+.modal-btn-sec { width: 100%; padding: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
+/* CONFETTI */
+#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; }
+
+/* MISC */
+.section-divider { height: 1px; background: var(--border); margin: 16px 16px 14px; }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; }
+.empty-state-icon { font-size: 40px; margin-bottom: 10px; }
+.page-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); padding: 20px 16px 4px; }
+.clock-text { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.conflict-banner { margin: 0 16px 10px; background: #FFF8E0; border: 1px solid #F0D060; border-radius: 12px; padding: 10px 14px; font-size: 12px; color: #8A6000; display: flex; gap: 8px; align-items: flex-start; }
+.hair-type-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--pill-bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--accent); font-weight: 600; margin: 0 16px 12px; }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ROUTINE PAGE -->
+<div class="page active" id="page-routine">
+  <div class="header">
+    <div class="header-top">
+      <div class="greeting-block">
+        <div class="greeting" id="greeting-text">Good morning</div>
+        <div class="name">Akshaya ✨</div>
+        <div class="clock-text" id="clock-text"></div>
+      </div>
+      <div class="header-actions">
+        <div class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="pills-row">
+      <div class="streak-pill">🔥 <span id="streak-count">0</span> day streak</div>
+      <div class="water-pill" onclick="showPage('page-water')">💧 <span id="water-mini">0</span>/8 glasses</div>
+    </div>
+  </div>
+
+  <div class="progress-block">
+    <div class="progress-label">
+      <span>Today's progress</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-icon" id="tip-icon">💊</div>
+    <div>
+      <div class="tip-label">Dermatologist tip</div>
+      <div class="tip-text" id="tip-text">Always apply niacinamide before heavier creams — it works best on clean, slightly damp skin.</div>
+    </div>
+  </div>
+
+  <div class="day-tabs-wrap">
+    <div class="day-tabs" id="day-tabs"></div>
+  </div>
+
+  <div class="active-banner" id="active-banner">
+    <div class="active-banner-label">Do this now</div>
+    <div class="active-banner-title" id="banner-title">Morning Skincare</div>
+    <div class="active-banner-sub" id="banner-sub">Start with Cetaphil cleanser on damp face</div>
+  </div>
+
+  <div id="hair-type-display"></div>
+  <div id="conflict-warnings"></div>
+
+  <div class="section-header">
+    <div class="section-title" id="day-label">Monday</div>
+    <div class="reset-btn" onclick="resetDay()">Reset day</div>
+  </div>
+
+  <div class="hold-hint">Hold a card 0.7s to mark product as finished</div>
+
+  <div id="routine-content"></div>
+</div>
+
+<!-- SUPPLEMENTS PAGE -->
+<div class="page" id="page-supps">
+  <div class="page-title">Supplements 💊</div>
+  <div style="padding: 4px 16px 16px; font-size: 13px; color: var(--text3);">Take with water. Never skip Livogen-Z.</div>
+  <div id="supps-content"></div>
+  <div class="section-divider"></div>
+  <div style="margin: 0 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px;">
+    <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px;">📋 Iron Absorption Rules</div>
+    <div style="font-size: 12px; color: var(--text2); line-height: 1.7;">
+      • Take Livogen-Z on empty stomach or with lemon water/orange juice<br>
+      • Never take with milk, tea, or coffee (blocks iron absorption)<br>
+      • Space D3 at least 2 hours away from Livogen-Z<br>
+      • Livogen-Z causes dark stools — this is completely normal<br>
+      • May cause mild constipation — increase water and fibre intake<br>
+      • D3 Must 60,000 IU: every Sunday, with food, for 8 weeks
+    </div>
+  </div>
+</div>
+
+<!-- WATER PAGE -->
+<div class="page" id="page-water">
+  <div class="page-title">Water Tracker 💧</div>
+  <div class="water-page">
+    <div class="water-ring-wrap">
+      <div class="water-center">
+        <svg class="water-ring-svg" width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="68" fill="none" stroke="var(--border)" stroke-width="10"/>
+          <circle cx="80" cy="80" r="68" fill="none" stroke="var(--accent3)" stroke-width="10" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="427" id="water-ring-circle" style="transition:stroke-dashoffset 0.5s ease"/>
+        </svg>
+        <div class="water-ring-label">
+          <div class="water-big-num" id="water-big">0</div>
+          <div class="water-of">of <span id="water-goal-display">8</span> glasses</div>
+        </div>
+      </div>
+    </div>
+    <div class="goal-adjuster">
+      <div>
+        <div class="goal-adj-label">Daily goal</div>
+        <div class="goal-adj-val"><span id="water-goal-val">8</span> glasses</div>
+      </div>
+      <div class="adj-btns">
+        <div class="adj-btn" onclick="adjustWaterGoal(-1)">−</div>
+        <div class="adj-btn" onclick="adjustWaterGoal(1)">+</div>
+      </div>
+    </div>
+    <div class="glass-grid" id="glass-grid"></div>
+    <div class="water-btns">
+      <div class="water-btn primary" onclick="addGlass(1)">+ 1 Glass</div>
+      <div class="water-btn" onclick="addGlass(0.5)">+ ½ Glass</div>
+      <div class="water-btn" onclick="undoGlass()">Undo</div>
+    </div>
+    <div class="water-tip" id="water-tip">
+      <strong>💡 Hydration tip:</strong> Drinking enough water helps flush excess iron from your system and keeps your scalp hydrated for better hair growth. Start with a glass first thing in the morning.
+    </div>
+  </div>
+</div>
+
+<!-- JOURNAL PAGE -->
+<div class="page" id="page-journal">
+  <div class="page-title">Journal 📓</div>
+  <div class="journal-wrap">
+    <div class="photo-reminder">
+      <div class="photo-reminder-title">📸 Progress Photos</div>
+      <div class="photo-reminder-sub">Document your hair and skin journey. Take photos every 2 weeks to track improvement.</div>
+      <div class="photo-grid">
+        <div class="photo-slot" onclick="capturePhoto('front')">📸<br>Front face</div>
+        <div class="photo-slot" onclick="capturePhoto('left')">📸<br>Left side</div>
+        <div class="photo-slot" onclick="capturePhoto('top')">📸<br>Hair top view</div>
+        <div class="photo-slot" onclick="capturePhoto('right')">📸<br>Right side</div>
+      </div>
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px;">How's your skin today?</div>
+    <div class="emoji-rating" id="emoji-rating">
+      <div class="emoji-btn" data-val="1" onclick="setRating(1)">😞</div>
+      <div class="emoji-btn" data-val="2" onclick="setRating(2)">😐</div>
+      <div class="emoji-btn" data-val="3" onclick="setRating(3)">🙂</div>
+      <div class="emoji-btn" data-val="4" onclick="setRating(4)">😊</div>
+      <div class="emoji-btn" data-val="5" onclick="setRating(5)">🤩</div>
+    </div>
+
+    <textarea class="journal-textarea" id="journal-notes" placeholder="Any skin changes, hair shedding notes, how products felt today..."></textarea>
+    <button class="journal-save-btn" onclick="saveJournal()">Save Today's Entry</button>
+
+    <button class="ai-advice-btn" onclick="getAIAdvice()">✨ Get AI Skin & Hair Advice</button>
+    <div id="ai-advice-result"></div>
+
+    <div class="past-entries">
+      <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; margin-top: 20px;">Past Entries</div>
+      <div id="past-entries-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- INVENTORY PAGE -->
+<div class="page" id="page-inventory">
+  <div class="page-title">Inventory 🧴</div>
+  <div class="inventory-wrap">
+    <div id="reorder-banner-wrap"></div>
+    <div id="inventory-content"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="nav-item active" onclick="showPage('page-routine')" id="nav-routine">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    Routine
+  </div>
+  <div class="nav-item" onclick="showPage('page-supps')" id="nav-supps">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.5 2l-1.5 1.5M3 16.5L16.5 3M9 21l6-6m-6 0L3 9m6 12c.5 0 3-1 3-3s-2.5-3-3-3"/><ellipse cx="15" cy="9" rx="5" ry="3" transform="rotate(45 15 9)"/></svg>
+    Medicines
+  </div>
+  <div class="nav-item" onclick="showPage('page-water')" id="nav-water">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+    Water
+  </div>
+  <div class="nav-item" onclick="showPage('page-journal')" id="nav-journal">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    Journal
+  </div>
+  <div class="nav-item" onclick="showPage('page-inventory')" id="nav-inventory">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    Stock
+  </div>
+</nav>
+
+<!-- REPLACE MODAL -->
+<div class="modal-overlay" id="replace-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Product Finished? 🎉</div>
+    <div class="modal-sub" id="replace-modal-sub">What's replacing this product?</div>
+    <input class="modal-input" id="replace-product-name" placeholder="Type new product name...">
+    <input class="modal-input" id="replace-product-extra" placeholder="Any extra info (optional)">
+    <button class="modal-btn" onclick="doReplace()">✨ Get Instructions & Replace</button>
+    <button class="modal-btn-sec" onclick="closeModal('replace-modal')">Cancel</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const NAME = 'akshaya';
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const FULL_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+// Hair wash days: Mon, Wed, Fri = wash; others = no-wash
+const HAIR_WASH_DAYS = [1,3,5]; // Mon, Wed, Fri (0=Sun)
+
+// Lactic peel: once a week, Saturday nights only (not daily!)
+const LACTIC_PEEL_DAYS = [6]; // Saturday
+
+// Azelaic acid: alternate nights (Tue, Thu, Sat)
+const AZELAIC_NIGHTS = [2,4,6];
+
+// Products inventory
+const ALL_PRODUCTS = [
+  { id: 'cetaphil', name: 'Cetaphil Gentle Cleanser', cat: 'Face', size: '125ml', stock: 80 },
+  { id: 'niacinamide', name: 'Minimalist Niacinamide 5%', cat: 'Face', size: '30ml', stock: 70 },
+  { id: 'azicalm', name: 'Conscious Chemist Azicalm 10%', cat: 'Face', size: '50g', stock: 85 },
+  { id: 'reequil', name: "Re'equil Oil Free Moisturiser", cat: 'Face', size: '100g', stock: 75 },
+  { id: 'sunscreen-fluid', name: 'WishCare Niacinamide Sunscreen SPF50+', cat: 'Face', size: '50ml', stock: 65 },
+  { id: 'sunstick', name: 'Earthrhythm Sunstick SPF60', cat: 'Face', size: '15g', stock: 60 },
+  { id: 'milk-route', name: 'Milk Route Daily (Lactic Peel)', cat: 'Face', size: '9g', stock: 90 },
+  { id: 'morning-lark', name: 'Morning Lark Caffeine Spray', cat: 'Hair', size: '99ml', stock: 85 },
+  { id: 'minimalist-hair', name: 'Minimalist 18% Hair Density Serum', cat: 'Hair', size: '30ml', stock: 100 },
+  { id: 'indulekha', name: 'Indulekha Bringha Oil', cat: 'Hair', size: '250ml', stock: 100 },
+  { id: 'loreal-shampoo', name: "L'Oreal Absolut Repair Shampoo", cat: 'Hair', size: '300ml', stock: 70 },
+  { id: 'bare-anatomy-mask', name: 'Bare Anatomy Ultra Smoothing Hair Mask', cat: 'Hair', size: '250g', stock: 75 },
+  { id: 'loreal-serum', name: "L'Oreal Extraordinary Hair Serum", cat: 'Hair', size: '100ml', stock: 65 },
+  { id: 'loreal-conditioner', name: "L'Oreal Hyaluron Moisture Conditioner", cat: 'Hair', size: '192ml', stock: 70 },
+  { id: 'leavein', name: 'Conscious Chemist Anti-Hairfall Leave-in', cat: 'Hair', size: '100ml', stock: 100 },
+  { id: 'shower-gel', name: 'Dabur Gulabari Shower Gel', cat: 'Body', size: '200ml', stock: 80 },
+  { id: 'deodorant', name: 'Yardley English Musk Roll-on', cat: 'Body', size: '50ml', stock: 75 },
+  { id: 'lip-balm', name: 'Chosen Ceramide Lip Balm', cat: 'Face', size: '9g', stock: 70 },
+];
+
+// Routine phases
+function buildRoutine(dayIndex) {
+  const isWashDay = HAIR_WASH_DAYS.includes(dayIndex);
+  const isLacticDay = LACTIC_PEEL_DAYS.includes(dayIndex);
+  const isAzelaicNight = AZELAIC_NIGHTS.includes(dayIndex);
+  const phases = [];
+
+  // ---- MORNING ----
+  if (isWashDay) {
+    phases.push({
+      id: 'pre-bath-hair',
+      title: 'Pre-Bath Hair Prep',
+      time: '30–60 min before bath',
+      dot: '#C4714A',
+      tasks: [
+        {
+          id: 'indulekha-oil',
+          name: 'Indulekha Bringha Oil',
+          badges: ['Hair', 'Pre-Bath'],
+          instruction: 'Section hair into 4 parts. Apply Indulekha oil directly to scalp using the built-in comb applicator. Massage gently in circular motion for 5–7 minutes. Leave on for 30–60 minutes only — do NOT leave overnight.',
+          qty: '6–8 drops per section, scalp only',
+          why: '<strong>Why:</strong> Bringharaj in Indulekha is clinically proven to reduce hair fall and stimulate follicles. Oil massage improves scalp blood circulation, delivering iron-rich blood to starved follicles. 30–60 min is sufficient — overnight oiling is avoided per your preference.',
+          productId: 'indulekha'
+        }
+      ]
+    });
+  }
+
+  const morningFaceTasks = [
+    {
+      id: 'cetaphil-morning',
+      name: 'Cetaphil Gentle Cleanser',
+      badges: ['Face', 'Morning'],
+      instruction: 'Wet face with lukewarm water. Apply a small amount of Cetaphil to fingertips and massage gently over face in circular motions for 30 seconds. Rinse thoroughly. Pat dry — never rub.',
+      qty: 'Pea-sized amount (about 1ml)',
+      why: '<strong>Why:</strong> Cetaphil is pH-balanced and non-stripping — essential for rosacea-prone skin like yours. It cleanses without disturbing the moisture barrier, keeping Azicalm effective.',
+      productId: 'cetaphil'
+    },
+    {
+      id: 'niacinamide-morning',
+      name: 'Minimalist Niacinamide 5% Serum',
+      badges: ['Face', 'Morning'],
+      instruction: 'On clean, slightly damp skin. Apply 3–4 drops to fingertips and spread evenly across face and neck. Tap gently to absorb. Wait 60 seconds before next step.',
+      qty: '3–4 drops',
+      why: '<strong>Why:</strong> Niacinamide regulates sebum, minimises pores, and reduces redness — perfect for rosacea-prone skin. Morning use provides all-day oil control.',
+      productId: 'niacinamide'
+    },
+    {
+      id: 'reequil-morning',
+      name: "Re'equil Oil Free Moisturiser",
+      badges: ['Face', 'Morning'],
+      instruction: 'After niacinamide has absorbed. Apply a small amount to face and neck using upward strokes. Allow to absorb fully before sunscreen.',
+      qty: 'Half a pea-size (about 0.3g)',
+      why: "<strong>Why:</strong> Hyaluronic acid + Betaine locks in moisture without clogging pores. Oil-free formula won't interfere with your SPF.",
+      productId: 'reequil'
+    },
+    {
+      id: 'sunscreen-morning',
+      name: 'WishCare Niacinamide Sunscreen SPF50+ + Sunstick SPF60',
+      badges: ['Face', 'Last Step'],
+      instruction: 'Apply WishCare fluid generously to face — 2 finger-lengths of product. Blend evenly. Finish with Earthrhythm sunstick as a top-up on nose, cheeks, and forehead. Reapply sunstick every 2 hours outdoors.',
+      qty: '2 finger-lengths of fluid + 2 swipes of sunstick',
+      why: '<strong>Why:</strong> SPF is the single most important anti-aging and redness-prevention step. The double SPF layer ensures complete coverage. Niacinamide in WishCare adds extra oil control.',
+      productId: 'sunscreen-fluid'
+    },
+  ];
+
+  phases.push({
+    id: 'morning-face',
+    title: 'Morning Face Routine',
+    time: 'After brushing teeth',
+    tasks: morningFaceTasks
+  });
+
+  if (isWashDay) {
+    phases.push({
+      id: 'bath-wash',
+      title: 'Bath & Hair Wash',
+      time: 'Shower time',
+      tasks: [
+        {
+          id: 'shower-gel-task',
+          name: 'Dabur Gulabari Shower Gel',
+          badges: ['Body', 'Shower'],
+          instruction: 'Apply to wet body using loofah or hands. Lather well, focusing on underarms and skin folds. Rinse thoroughly.',
+          qty: '2–3 pumps',
+          why: '<strong>Why:</strong> Rose and jojoba oil keep skin moisturised while cleansing. Soap-free formula is gentler on dry skin.',
+          productId: 'shower-gel'
+        },
+        {
+          id: 'shampoo-task',
+          name: "L'Oreal Absolut Repair Shampoo",
+          badges: ['Hair', 'Wash Day'],
+          instruction: 'Rinse out the oil thoroughly first. Apply shampoo to wet hair, lather gently on scalp with fingertips (not nails). Leave for 2 minutes. Rinse well. You may shampoo twice if oil residue remains.',
+          qty: '2 pumps (coin-sized amount)',
+          why: '<strong>Why:</strong> Protein + Omega-9 formula rebuilds damaged hair shaft. Avoid scrubbing harshly — your scalp is sensitive and hair is fragile from iron deficiency.',
+          productId: 'loreal-shampoo'
+        },
+        {
+          id: 'conditioner-task',
+          name: "L'Oreal Hyaluron Moisture Conditioner",
+          badges: ['Hair', 'Wash Day'],
+          instruction: 'After shampoo, apply conditioner to mid-lengths and ends only — NOT scalp. Leave for 2–3 minutes. Rinse with cold water to seal cuticles and add shine.',
+          qty: '1–2 pumps on lengths only',
+          why: '<strong>Why:</strong> Hyaluronic acid in this conditioner seals moisture into each strand, reducing frizz — the main issue visible in your hair. Cold rinse seals cuticles.',
+          productId: 'loreal-conditioner'
+        }
+      ]
+    });
+
+    phases.push({
+      id: 'post-wash-hair',
+      title: 'Post-Wash Hair',
+      time: 'After towel dry',
+      tasks: [
+        {
+          id: 'leavein-task',
+          name: 'Conscious Chemist Anti-Hairfall Leave-in Conditioner',
+          badges: ['Hair', 'Leave-in'],
+          instruction: 'On damp hair (not dripping wet). Apply to mid-lengths and ends only — never scalp. Spread evenly with fingers or wide-tooth comb. Do NOT rinse off. Style as usual.',
+          qty: 'Pea-sized to marble-sized depending on hair length',
+          why: '<strong>Why:</strong> Rosemary in this formula actively fights hair fall while conditioning. Leave-in hydration reduces breakage on already-fragile hair. Scalp must stay clear for serums.',
+          productId: 'leavein'
+        },
+        {
+          id: 'loreal-serum-task',
+          name: "L'Oreal Extraordinary Hair Serum",
+          badges: ['Hair', 'Frizz Control'],
+          instruction: 'On damp or dry hair. Apply 1–2 drops to palms, rub together, then smooth over mid-lengths and ends. Avoid scalp. Helps tame frizz and adds shine.',
+          qty: '1–2 drops only',
+          why: '<strong>Why:</strong> Controls the frizz visible in your hair. The lightweight formula smooths cuticles without weighing down thin hair.',
+          productId: 'loreal-serum'
+        }
+      ]
+    });
+  }
+
+  // Morning hair serum on non-wash days
+  if (!isWashDay) {
+    phases.push({
+      id: 'bath-nowash',
+      title: 'Bath',
+      time: 'Shower time',
+      tasks: [
+        {
+          id: 'shower-gel-nowash',
+          name: 'Dabur Gulabari Shower Gel',
+          badges: ['Body', 'Shower'],
+          instruction: 'Apply to wet body. Lather and rinse. No hair wash today — just body wash.',
+          qty: '2–3 pumps',
+          why: '<strong>Why:</strong> Body cleansing daily keeps skin fresh.',
+          productId: 'shower-gel'
+        }
+      ]
+    });
+  }
+
+  phases.push({
+    id: 'after-bath',
+    title: 'After Bath',
+    time: 'After drying off',
+    tasks: [
+      {
+        id: 'deodorant-task',
+        name: 'Yardley English Musk Roll-on',
+        badges: ['Body', 'After Bath'],
+        instruction: 'Apply to clean, dry underarms. Allow to dry completely before dressing. Alcohol-free formula is gentle on skin.',
+        qty: '2–3 rolls each side',
+        why: '<strong>Why:</strong> Alcohol-free formula prevents darkening of underarm skin while providing 48h protection.',
+        productId: 'deodorant'
+      },
+      {
+        id: 'morning-lark-morning',
+        name: 'Morning Lark Caffeine Spray',
+        badges: ['Hair', 'Scalp'],
+        instruction: 'On clean, dry or slightly damp scalp. Part hair into sections. Spray 8–9 pumps directly onto scalp. Massage gently with fingertips for 1–2 minutes. Do not rinse.',
+        qty: '8–9 pumps (1–1.5ml), scalp only',
+        why: '<strong>Why:</strong> Caffeine blocks DHT (the hormone that shrinks follicles) and stimulates follicle metabolism directly. Morning application gives all-day follicle stimulation.',
+        productId: 'morning-lark'
+      },
+      {
+        id: 'lip-balm-morning',
+        name: 'Chosen Ceramide Lip Balm',
+        badges: ['Face', 'Lips'],
+        instruction: 'Apply a thin layer to lips after face routine. Ceramides repair and maintain the lip barrier. Use as needed throughout the day.',
+        qty: 'Thin layer',
+        why: '<strong>Why:</strong> Ceramides rebuild the lip barrier, preventing dryness. Iron deficiency often causes dry lips — this helps.',
+        productId: 'lip-balm'
+      }
+    ]
+  });
+
+  // ---- NIGHT ----
+  const nightTasks = [
+    {
+      id: 'cetaphil-night',
+      name: 'Cetaphil Gentle Cleanser',
+      badges: ['Face', 'Night'],
+      instruction: 'Remove all sunscreen and pollution with Cetaphil. Double cleanse if needed — apply first round dry (on sunscreen), massage 30 sec, rinse. Apply second round on wet skin, rinse clean.',
+      qty: 'Pea-sized amount each time',
+      why: '<strong>Why:</strong> Sunscreen must be fully removed before actives — residue blocks absorption and causes breakouts.',
+      productId: 'cetaphil'
+    }
+  ];
+
+  if (isAzelaicNight) {
+    nightTasks.push({
+      id: 'azicalm-night',
+      name: 'Conscious Chemist Azicalm 10% Azelaic Acid',
+      badges: ['Face', 'Active Night'],
+      instruction: 'On clean, dry skin. Apply a thin, even layer across face avoiding eye area. This is a treatment gel — leave on overnight. Do not layer over niacinamide serum on the same night.',
+      qty: 'Thin layer (pea-sized, less is more)',
+      why: '<strong>Why:</strong> Azelaic acid reduces redness, calms rosacea, and gently exfoliates. Tonight is your active treatment night — skip niacinamide to avoid over-layering.',
+      productId: 'azicalm'
+    });
+    nightTasks.push({
+      id: 'reequil-night',
+      name: "Re'equil Oil Free Moisturiser",
+      badges: ['Face', 'Night'],
+      instruction: 'After Azicalm has absorbed (wait 3 minutes). Apply lightly over face. On active nights, keep moisturiser minimal.',
+      qty: 'Minimal — pea-size',
+      why: '<strong>Why:</strong> Locks in azelaic acid and prevents overnight dryness without interfering with the active.',
+      productId: 'reequil'
+    });
+  } else {
+    nightTasks.push({
+      id: 'niacinamide-night',
+      name: 'Minimalist Niacinamide 5% Serum',
+      badges: ['Face', 'Night'],
+      instruction: 'On clean, damp skin. Apply 3–4 drops across face and neck. Gently pat to absorb. Wait 60 seconds.',
+      qty: '3–4 drops',
+      why: '<strong>Why:</strong> Non-active nights use niacinamide to calm any inflammation and maintain skin barrier overnight.',
+      productId: 'niacinamide'
+    });
+    nightTasks.push({
+      id: 'reequil-night-plain',
+      name: "Re'equil Oil Free Moisturiser",
+      badges: ['Face', 'Night'],
+      instruction: 'After niacinamide absorbs. Apply generously as the last step — skin repairs itself overnight, so slightly more moisturiser tonight is fine.',
+      qty: 'Pea-size or slightly more',
+      why: '<strong>Why:</strong> Hyaluronic acid + Betaine provide overnight hydration and repair for rosacea-prone skin.',
+      productId: 'reequil'
+    });
+  }
+
+  if (isLacticDay) {
+    nightTasks.splice(1, 0, {
+      id: 'milk-route-night',
+      name: 'Milk Route Daily (Lactic Peel) — Saturday Special',
+      badges: ['Face', '⚠️ Weekly Only'],
+      instruction: 'Use ONLY once this week (Saturday). On clean, dry skin — before other actives. Apply a thin layer. Leave for 5–10 minutes (start with 5 min if new). Rinse off completely. Then proceed with moisturiser only — skip all other actives tonight.',
+      qty: 'Thin even layer — less is more',
+      why: '<strong>Why:</strong> Lactic acid gently exfoliates dead cells, improves skin texture and brightness. Weekly use is sufficient — overuse causes irritation on rosacea-prone skin. Skip Azicalm and Niacinamide after peel.',
+      productId: 'milk-route'
+    });
+  }
+
+  nightTasks.push({
+    id: 'minimalist-hair-night',
+    name: 'Minimalist 18% Hair Density Serum',
+    badges: ['Hair', 'Night Scalp'],
+    instruction: 'After face routine. Part hair and apply 4–5 drops directly to scalp. Spread with fingertips across scalp. Gentle massage 1–2 minutes. Do NOT rinse. Apply on clean scalp — not over oil.',
+    qty: '4–5 drops, scalp only',
+    why: '<strong>Why:</strong> Redensyl + Procapil + Capixyl target hair follicle stem cells overnight when body repair processes are most active. Night application maximises absorption.',
+    productId: 'minimalist-hair'
+  });
+
+  nightTasks.push({
+    id: 'lip-balm-night',
+    name: 'Chosen Ceramide Lip Balm',
+    badges: ['Face', 'Night'],
+    instruction: 'Apply a generous layer to lips before sleep. Leave overnight.',
+    qty: 'Generous layer',
+    why: '<strong>Why:</strong> Overnight ceramide treatment repairs lip barrier while you sleep. Iron deficiency causes lip dryness — this helps significantly.',
+    productId: 'lip-balm'
+  });
+
+  phases.push({
+    id: 'night-routine',
+    title: 'Night Routine',
+    time: 'Before bed',
+    tasks: nightTasks
+  });
+
+  // Hair mask — on wash days, optionally once a week (replace conditioner on Wednesday)
+  if (dayIndex === 3) { // Wednesday
+    phases.push({
+      id: 'hair-mask-phase',
+      title: 'Weekly Hair Mask (Wednesday)',
+      time: 'During shower — replaces conditioner',
+      tasks: [
+        {
+          id: 'bare-anatomy-mask-task',
+          name: 'Bare Anatomy Ultra Smoothing Hair Mask',
+          badges: ['Hair', 'Weekly Treatment'],
+          instruction: 'After shampooing. Apply generously to mid-lengths and ends. Leave for 5–10 minutes. Rinse with cold water. Skip conditioner on mask days — the mask is your conditioner.',
+          qty: '1–2 tablespoons',
+          why: '<strong>Why:</strong> Carbohydrate Complex + Niacinamide repair damaged hair shaft, restore smoothness, and reduce frizz. Weekly deep conditioning is essential for dry, iron-deficient hair.',
+          productId: 'bare-anatomy-mask'
+        }
+      ]
+    });
+  }
+
+  return phases;
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let currentDay = new Date().getDay();
+let waterCount = 0;
+let waterGoal = 8;
+let journalRating = 0;
+
+function sk(key) { return `${NAME}_${key}`; }
+function getState(key, def) { try { const v = localStorage.getItem(sk(key)); return v !== null ? JSON.parse(v) : def; } catch(e) { return def; } }
+function setState(key, val) { try { localStorage.setItem(sk(key), JSON.stringify(val)); } catch(e) {} }
+
+function getTodayKey() { return new Date().toISOString().split('T')[0]; }
+function getCheckedTasks() { return getState(`routine_${getTodayKey()}_d${currentDay}`, {}); }
+function setCheckedTasks(obj) { setState(`routine_${getTodayKey()}_d${currentDay}`, obj); }
+function getInventory() { 
+  const saved = getState('inventory_v2', null);
+  if (!saved) {
+    const init = {};
+    ALL_PRODUCTS.forEach(p => { init[p.id] = p.stock; });
+    return init;
+  }
+  return saved;
+}
+function setInventory(obj) { setState('inventory_v2', obj); }
+
+// ============================================================
+// ROUTINE RENDER
+// ============================================================
+function renderRoutine() {
+  const isWashDay = HAIR_WASH_DAYS.includes(currentDay);
+  const phases = buildRoutine(currentDay);
+  const checked = getCheckedTasks();
+  const inv = getInventory();
+
+  // Hair type display
+  const htd = document.getElementById('hair-type-display');
+  htd.innerHTML = `<div class="hair-type-badge">${isWashDay ? '🚿 Hair Wash Day' : '💆 No-Wash Day'}</div>`;
+
+  // Conflict warnings
+  const cw = document.getElementById('conflict-warnings');
+  const warnings = [];
+  if (LACTIC_PEEL_DAYS.includes(currentDay)) {
+    warnings.push('⚠️ Lactic Peel night — skip Niacinamide & Azicalm after the peel.');
+  }
+  if (AZELAIC_NIGHTS.includes(currentDay)) {
+    warnings.push('⚠️ Azelaic Acid night — skip Niacinamide serum tonight.');
+  }
+  cw.innerHTML = warnings.map(w => `<div class="conflict-banner"><span>⚠️</span><span>${w}</span></div>`).join('');
+
+  // Build content
+  const container = document.getElementById('routine-content');
+  let html = '';
+  let totalTasks = 0;
+  let doneTasks = 0;
+
+  phases.forEach(phase => {
+    html += `<div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot"></div>
+        <div class="phase-title">${phase.title}</div>
+        <div class="phase-line"></div>
+        <div class="phase-time">${phase.time}</div>
+      </div>`;
+
+    phase.tasks.forEach(task => {
+      totalTasks++;
+      const isDone = checked[task.id];
+      if (isDone) doneTasks++;
+      const stock = inv[task.productId] || 50;
+      const stockColor = stock > 50 ? 'green' : stock > 20 ? 'amber' : 'red';
+      const lowBadge = stock <= 20 ? '<span class="badge badge-low">Low Stock</span>' : '';
+      const outBadge = stock === 0 ? '<span class="badge badge-out">Out of Stock</span>' : '';
+
+      const badgesHtml = task.badges.map(b => {
+        const cls = b === 'Hair' ? 'badge-hair' : b === 'Face' ? 'badge-face' : b === 'Body' ? 'badge-body' : b === 'Med' ? 'badge-med' : 'badge-when';
+        return `<span class="badge ${cls}">${b}</span>`;
+      }).join('');
+
+      html += `<div class="task-card ${isDone ? 'done' : ''}" id="card-${task.id}" 
+        ontouchstart="startHold('${task.id}')" ontouchend="endHold()" ontouchmove="endHold()"
+        onmousedown="startHold('${task.id}')" onmouseup="endHold()" onmouseleave="endHold()">
+        <div class="task-card-top">
+          <div class="task-check ${isDone ? 'checked' : ''}" onclick="toggleTask('${task.id}', '${task.productId}')">
+            ${isDone ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+          </div>
+          <div class="task-content">
+            <div class="task-name">${task.name}</div>
+            <div class="task-badges">${badgesHtml}${lowBadge}${outBadge}</div>
+            <div class="task-instruction">${task.instruction}</div>
+            <div class="task-qty">📏 ${task.qty}</div>
+            <div class="task-why">🩺 ${task.why}</div>
+          </div>
+        </div>
+        <div class="stock-bar-wrap">
+          <div class="stock-bar-label"><span>Stock</span><span>${stock}%</span></div>
+          <div class="stock-bar-bg"><div class="stock-bar-fill stock-${stockColor}" style="width:${stock}%"></div></div>
+        </div>
+      </div>`;
+    });
+
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+
+  // Update progress
+  const pct = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-bar').style.width = pct + '%';
+
+  if (pct === 100) {
+    triggerConfetti();
+    updateStreak();
+  }
+}
+
+// ============================================================
+// TASK TOGGLE
+// ============================================================
+function toggleTask(taskId, productId) {
+  const checked = getCheckedTasks();
+  checked[taskId] = !checked[taskId];
+  setCheckedTasks(checked);
+
+  // Deplete stock
+  if (checked[taskId]) {
+    const inv = getInventory();
+    const depletion = Math.floor(Math.random() * 3) + 2;
+    inv[productId] = Math.max(0, (inv[productId] || 50) - depletion);
+    setInventory(inv);
+  }
+
+  renderRoutine();
+  renderInventory();
+}
+
+// ============================================================
+// HOLD TO REPLACE
+// ============================================================
+let holdTimer = null;
+let holdTaskId = null;
+
+function startHold(taskId) {
+  holdTaskId = taskId;
+  holdTimer = setTimeout(() => {
+    showReplaceModal(taskId);
+  }, 700);
+}
+function endHold() {
+  clearTimeout(holdTimer);
+}
+function showReplaceModal(taskId) {
+  document.getElementById('replace-modal-sub').textContent = `What's replacing the product in: ${taskId.replace(/-/g,' ')}?`;
+  document.getElementById('replace-product-name').value = '';
+  document.getElementById('replace-product-extra').value = '';
+  document.getElementById('replace-modal').classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+async function doReplace() {
+  const name = document.getElementById('replace-product-name').value.trim();
+  if (!name) return;
+  const extra = document.getElementById('replace-product-extra').value.trim();
+  const btn = document.querySelector('#replace-modal .modal-btn');
+  btn.textContent = '⏳ Getting instructions...';
+  btn.disabled = true;
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are a dermatologist writing a product usage card. Product: "${name}". Extra info: "${extra}". Write JSON only, no markdown: { "instruction": "2-3 sentence clinical usage instruction", "qty": "exact amount to use", "why": "why this product is beneficial, starting with <strong>Why:</strong>" }`
+        }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content[0].text.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(text);
+    alert(`✅ Instructions ready for ${name}!\n\nInstruction: ${parsed.instruction}\n\nAmount: ${parsed.qty}`);
+  } catch(e) {
+    alert(`Product ${name} noted as replacement. Update instructions manually.`);
+  }
+  btn.textContent = '✨ Get Instructions & Replace';
+  btn.disabled = false;
+  closeModal('replace-modal');
+}
+
+// ============================================================
+// DAY TABS
+// ============================================================
+function renderDayTabs() {
+  const container = document.getElementById('day-tabs');
+  const today = new Date().getDay();
+  const history = getState('history_v2', {});
+  container.innerHTML = DAYS.map((d, i) => {
+    const isToday = i === today;
+    const isActive = i === currentDay;
+    const todayKey = getDateForDay(i);
+    const isComplete = history[todayKey];
+    return `<div class="day-tab ${isActive ? 'active' : ''} ${isComplete ? 'completed' : ''}" onclick="switchDay(${i})">${d}${isToday ? ' •' : ''}</div>`;
+  }).join('');
+  document.getElementById('day-label').textContent = FULL_DAYS[currentDay];
+}
+
+function getDateForDay(dayIndex) {
+  const now = new Date();
+  const diff = dayIndex - now.getDay();
+  const d = new Date(now);
+  d.setDate(d.getDate() + diff);
+  return d.toISOString().split('T')[0];
+}
+
+function switchDay(i) {
+  currentDay = i;
+  renderDayTabs();
+  renderRoutine();
+}
+
+function resetDay() {
+  if (confirm('Reset all tasks for today?')) {
+    setCheckedTasks({});
+    renderRoutine();
+  }
+}
+
+// ============================================================
+// SUPPLEMENTS
+// ============================================================
+const SUPPLEMENTS = [
+  { id: 'livogen-breakfast', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ, empty stomach', timing: 'After Waking Up (Morning)' },
+  { id: 'd3-sunday', name: 'D3 Must 60,000 IU', dose: '1 tablet — with food, every Sunday only', timing: 'After Breakfast (Sundays Only)' },
+  { id: 'livogen-night', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ', timing: 'Before Bed (Night)' },
+];
+
+function renderSupplements() {
+  const checked = getState(`supp_${getTodayKey()}`, {});
+  const isThisSunday = new Date().getDay() === 0;
+  const container = document.getElementById('supps-content');
+  let html = '';
+  let lastTiming = '';
+
+  SUPPLEMENTS.forEach(s => {
+    if (s.id === 'd3-sunday' && !isThisSunday) return; // Only show D3 on Sundays
+    if (s.timing !== lastTiming) {
+      html += `<div class="supp-timing">${s.timing}</div>`;
+      lastTiming = s.timing;
+    }
+    const done = checked[s.id];
+    html += `<div class="supp-card">
+      <div class="supp-check ${done ? 'checked' : ''}" onclick="toggleSupp('${s.id}')">
+        ${done ? '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="12"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+      </div>
+      <div class="supp-info">
+        <div class="supp-name">${s.name}</div>
+        <div class="supp-dose">${s.dose}</div>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function toggleSupp(id) {
+  const checked = getState(`supp_${getTodayKey()}`, {});
+  checked[id] = !checked[id];
+  setState(`supp_${getTodayKey()}`, checked);
+  renderSupplements();
+}
+
+// ============================================================
+// WATER
+// ============================================================
+function renderWater() {
+  const today = getTodayKey();
+  waterCount = getState(`water_${today}`, 0);
+  waterGoal = getState('water_goal', 8);
+
+  document.getElementById('water-big').textContent = waterCount;
+  document.getElementById('water-mini').textContent = waterCount;
+  document.getElementById('water-goal-display').textContent = waterGoal;
+  document.getElementById('water-goal-val').textContent = waterGoal;
+
+  const pct = Math.min(waterCount / waterGoal, 1);
+  const circumference = 2 * Math.PI * 68;
+  const offset = circumference * (1 - pct);
+  document.getElementById('water-ring-circle').style.strokeDashoffset = offset;
+
+  // Glass grid
+  const grid = document.getElementById('glass-grid');
+  let html = '';
+  for (let i = 0; i < waterGoal; i++) {
+    html += `<div class="glass-item ${i < waterCount ? 'filled' : ''}" onclick="setWaterTo(${i+1})">🥛</div>`;
+  }
+  grid.innerHTML = html;
+
+  // Tips
+  const tips = [
+    'Start your day with a glass of water before Livogen-Z for better iron absorption.',
+    'Water helps flush toxins and keeps your scalp hydrated — directly supporting hair growth.',
+    'Good progress! Staying hydrated reduces scalp dryness and dandruff.',
+    'Almost at goal! Hydrated skin means your Azicalm and Niacinamide work better.',
+    '🎉 Goal reached! Consistent hydration is one of the best things for rosacea-prone skin.'
+  ];
+  const tipIdx = Math.min(Math.floor(pct * 5), 4);
+  document.getElementById('water-tip').innerHTML = `<strong>💡 Hydration tip:</strong> ${tips[tipIdx]}`;
+}
+
+function addGlass(amount) {
+  const today = getTodayKey();
+  waterCount = Math.min(waterGoal, waterCount + amount);
+  setState(`water_${today}`, waterCount);
+  if (waterCount >= waterGoal) triggerConfetti();
+  renderWater();
+}
+function undoGlass() {
+  const today = getTodayKey();
+  waterCount = Math.max(0, waterCount - 1);
+  setState(`water_${today}`, waterCount);
+  renderWater();
+}
+function setWaterTo(n) {
+  const today = getTodayKey();
+  waterCount = n;
+  setState(`water_${today}`, waterCount);
+  if (waterCount >= waterGoal) triggerConfetti();
+  renderWater();
+}
+function adjustWaterGoal(delta) {
+  waterGoal = Math.max(4, Math.min(20, waterGoal + delta));
+  setState('water_goal', waterGoal);
+  renderWater();
+}
+
+// ============================================================
+// JOURNAL
+// ============================================================
+function setRating(val) {
+  journalRating = val;
+  document.querySelectorAll('.emoji-btn').forEach(b => {
+    b.classList.toggle('selected', parseInt(b.dataset.val) === val);
+  });
+}
+function saveJournal() {
+  const notes = document.getElementById('journal-notes').value.trim();
+  const today = getTodayKey();
+  const entries = getState('journal_v2', []);
+  const existing = entries.findIndex(e => e.date === today);
+  const entry = { date: today, rating: journalRating, notes };
+  if (existing >= 0) entries[existing] = entry;
+  else entries.unshift(entry);
+  setState('journal_v2', entries.slice(0, 60));
+  document.getElementById('journal-notes').value = '';
+  setRating(0);
+  renderJournal();
+  alert('✅ Entry saved!');
+}
+function renderJournal() {
+  const entries = getState('journal_v2', []);
+  const emojis = ['', '😞', '😐', '🙂', '😊', '🤩'];
+  const list = document.getElementById('past-entries-list');
+  if (!entries.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📓</div>No entries yet. Start journaling today!</div>';
+    return;
+  }
+  list.innerHTML = entries.slice(0, 20).map(e => `
+    <div class="past-entry">
+      <div class="past-entry-header">
+        <div class="past-entry-date">${e.date}</div>
+        <div class="past-entry-rating">${emojis[e.rating] || '—'}</div>
+      </div>
+      ${e.notes ? `<div class="past-entry-notes">${e.notes}</div>` : '<div class="past-entry-notes" style="color:var(--text3); font-style:italic;">No notes</div>'}
+    </div>`).join('');
+}
+async function getAIAdvice() {
+  const btn = document.querySelector('.ai-advice-btn');
+  btn.textContent = '⏳ Getting advice...';
+  btn.disabled = true;
+  const entries = getState('journal_v2', []).slice(0, 7);
+  const inv = getInventory();
+  const lowStock = ALL_PRODUCTS.filter(p => (inv[p.id] || 50) <= 20).map(p => p.name);
+  const streak = getState('streak', 0);
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are a dermatologist advising Akshaya, 34F, who has rosacea-prone skin, iron deficiency anemia (Hb 9.8, Ferritin 3.7), Vitamin D deficiency (15.1). She uses: Cetaphil, Minimalist Niacinamide 5%, Azicalm 10% Azelaic Acid, Re'equil moisturiser, SPF50+. Hair: Indulekha oil, L'Oreal Absolut Repair shampoo, Minimalist 18% Hair Density Serum, Morning Lark Caffeine spray. Medicines: Livogen-Z twice daily, D3 60,000 IU weekly. Streak: ${streak} days. Journal (last 7): ${JSON.stringify(entries)}. Low stock: ${lowStock.join(', ') || 'none'}. Give personalised, specific, practical advice in 3-4 sentences.`
+        }]
+      })
+    });
+    const data = await resp.json();
+    document.getElementById('ai-advice-result').innerHTML = `<div class="ai-result">✨ ${data.content[0].text}</div>`;
+  } catch(e) {
+    document.getElementById('ai-advice-result').innerHTML = `<div class="ai-result">Couldn't load advice. Check your connection and try again.</div>`;
+  }
+  btn.textContent = '✨ Get AI Skin & Hair Advice';
+  btn.disabled = false;
+}
+function capturePhoto(type) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*'; input.capture = 'camera';
+  input.onchange = () => { alert(`✅ ${type} photo saved to your progress log!`); };
+  input.click();
+}
+
+// ============================================================
+// INVENTORY
+// ============================================================
+function renderInventory() {
+  const inv = getInventory();
+  const lowItems = ALL_PRODUCTS.filter(p => (inv[p.id] || 50) <= 20);
+  
+  const banner = document.getElementById('reorder-banner-wrap');
+  banner.innerHTML = lowItems.length ? `<div class="reorder-banner">⚠️ ${lowItems.length} product(s) running low: ${lowItems.map(p => p.name).join(', ')}</div>` : '';
+
+  const cats = ['Face', 'Hair', 'Body'];
+  const container = document.getElementById('inventory-content');
+  let html = '';
+  cats.forEach(cat => {
+    const products = ALL_PRODUCTS.filter(p => p.cat === cat);
+    html += `<div class="inv-section-title">${cat === 'Face' ? '🧴' : cat === 'Hair' ? '💆' : '🛁'} ${cat}</div>`;
+    products.forEach(p => {
+      const stock = inv[p.id] !== undefined ? inv[p.id] : p.stock;
+      const color = stock > 50 ? '#5A9E6F' : stock > 20 ? '#D4923A' : '#C44A4A';
+      const statusText = stock > 50 ? 'Good' : stock > 20 ? 'Running low' : '⚠️ Reorder now';
+      html += `<div class="inv-card">
+        <div class="inv-card-header">
+          <div class="inv-emoji">${cat === 'Face' ? '🧴' : cat === 'Hair' ? '💆' : '🧼'}</div>
+          <div style="flex:1">
+            <div class="inv-name">${p.name}</div>
+            <div class="inv-cat">${p.cat} · ${p.size}</div>
+          </div>
+          <div class="inv-pct" style="color:${color}">${stock}%</div>
+        </div>
+        <input type="range" class="inv-slider" min="0" max="100" value="${stock}" oninput="updateStock('${p.id}', this.value)">
+        <div class="inv-status" style="color:${color}; margin-top:4px; font-size:11px;">${statusText}</div>
+      </div>`;
+    });
+  });
+  container.innerHTML = html;
+}
+function updateStock(productId, value) {
+  const inv = getInventory();
+  inv[productId] = parseInt(value);
+  setInventory(inv);
+}
+
+// ============================================================
+// GREETING & CLOCK & TIPS
+// ============================================================
+const TIPS = [
+  { icon: '🌅', text: 'Always apply SPF as your absolute last morning step — even indoors. Rosacea skin is photosensitive.' },
+  { icon: '💊', text: 'Take Livogen-Z with lemon juice or OJ, never with tea or coffee. Vitamin C doubles iron absorption.' },
+  { icon: '💧', text: 'Drink at least 8 glasses of water daily. Hydration is essential for scalp health and hair growth.' },
+  { icon: '🌙', text: 'Never skip double cleansing at night. SPF residue left overnight blocks your Niacinamide and Azicalm.' },
+  { icon: '💆', text: 'Massage your scalp gently for 5 minutes during oil application. This increases follicle blood flow.' },
+  { icon: '⚠️', text: 'Do not use Azicalm and Niacinamide on the same night — alternate them to avoid redness flare-ups.' },
+];
+
+function updateGreeting() {
+  const h = new Date().getHours();
+  const greetings = ['Good night','Good morning','Good afternoon','Good evening'];
+  const g = h < 5 ? greetings[0] : h < 12 ? greetings[1] : h < 17 ? greetings[2] : greetings[3];
+  document.getElementById('greeting-text').textContent = g;
+  const now = new Date();
+  document.getElementById('clock-text').textContent = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'});
+
+  // Active banner
+  const bannerTitles = ['Night Care — Rest & Repair', 'Morning Skincare Time', 'Afternoon SPF Reapply', 'Evening Prep Time'];
+  const bannerSubs = ['Apply Minimalist serum and lip balm before sleep.', 'Start with Cetaphil on damp face.', 'Reapply sunstick on forehead, cheeks, and nose.', 'Start winding down — double cleanse soon.'];
+  const bi = h < 5 ? 0 : h < 12 ? 1 : h < 17 ? 2 : 3;
+  document.getElementById('banner-title').textContent = bannerTitles[bi];
+  document.getElementById('banner-sub').textContent = bannerSubs[bi];
+
+  // Tip
+  const tipIdx = Math.floor(h / 4) % TIPS.length;
+  document.getElementById('tip-icon').textContent = TIPS[tipIdx].icon;
+  document.getElementById('tip-text').textContent = TIPS[tipIdx].text;
+}
+
+// ============================================================
+// STREAK
+// ============================================================
+function updateStreak() {
+  const history = getState('history_v2', {});
+  history[getTodayKey()] = true;
+  setState('history_v2', history);
+  let streak = 0;
+  const d = new Date();
+  for (let i = 0; i < 365; i++) {
+    const key = d.toISOString().split('T')[0];
+    if (history[key]) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  setState('streak', streak);
+  document.getElementById('streak-count').textContent = streak;
+}
+function loadStreak() {
+  document.getElementById('streak-count').textContent = getState('streak', 0);
+}
+
+// ============================================================
+// THEME
+// ============================================================
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  setState('theme', next);
+}
+function loadTheme() {
+  const t = getState('theme', 'light');
+  document.documentElement.setAttribute('data-theme', t);
+}
+
+// ============================================================
+// CONFETTI
+// ============================================================
+function triggerConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const colors = ['#C4714A','#8BAF8C','#7B9CBD','#E8D4C4','#F0A070'];
+  const particles = Array.from({length: 100}, () => ({
+    x: Math.random() * canvas.width, y: -10,
+    vx: (Math.random()-0.5)*4, vy: Math.random()*3+2,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    size: Math.random()*6+3, rot: Math.random()*360, rotV: (Math.random()-0.5)*6
+  }));
+  let frame = 0;
+  function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.rotV;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+      ctx.restore();
+    });
+    if (++frame < 130) requestAnimationFrame(animate);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
+  }
+  animate();
+}
+
+// ============================================================
+// NAV
+// ============================================================
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  const navId = 'nav-' + pageId.replace('page-','');
+  const navEl = document.getElementById(navId);
+  if (navEl) navEl.classList.add('active');
+
+  // Re-render page content
+  if (pageId === 'page-routine') renderRoutine();
+  if (pageId === 'page-supps') renderSupplements();
+  if (pageId === 'page-water') renderWater();
+  if (pageId === 'page-journal') renderJournal();
+  if (pageId === 'page-inventory') renderInventory();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  loadTheme();
+  currentDay = new Date().getDay();
+  updateGreeting();
+  setInterval(updateGreeting, 30000);
+  loadStreak();
+  renderDayTabs();
+  renderRoutine();
+  renderWater();
+}
+
+init();
+</script>
+</body>
+</html>
