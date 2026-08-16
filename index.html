@@ -916,6 +916,8 @@ function setInventory(obj) { setState('inventory_v2', obj); }
 // ============================================================
 function renderRoutine() {
   const isWashDay = HAIR_WASH_DAYS.includes(currentDay);
+  const isSundayWash = currentDay === SUNDAY_WASH;
+  const isWednesdayWash = currentDay === WEDNESDAY_WASH;
   const phases = buildRoutine(currentDay);
   const checked = getCheckedTasks();
   const inv = getInventory();
@@ -926,26 +928,29 @@ function renderRoutine() {
     ? '🌿 Sunday Wash Day — Full Relaxed Routine'
     : isWednesdayWash
     ? '🚿 Wednesday Wash Day — Office (Leave 8:50 AM)'
+    : isWashDay
+    ? '🚿 Wash Day'
     : '💆 No-Wash Day — Serum & Spray Only';
   htd.innerHTML = `<div class="hair-type-badge">${dayLabel}</div>`;
-  
-  // Bangalore tip
-  if (isWashDay) {
-    const blrTip = document.getElementById('conflict-warnings');
-    const existing = blrTip.innerHTML;
-    blrTip.innerHTML = existing + `<div class="conflict-banner" style="background:#E8F0FF;border-color:#B8C8F0;color:#2A4080;">💧 <span>Bangalore hard water tip: Finish hair wash with cold water rinse. If possible, use filtered water for final rinse to prevent mineral buildup on scalp.</span></div>`;
-  }
 
-  // Conflict warnings
+  // Conflict warnings + Bangalore tip
   const cw = document.getElementById('conflict-warnings');
   const warnings = [];
+  if (isWashDay) {
+    warnings.push('💧 Bangalore hard water tip: Finish hair wash with cold water rinse. Use filtered water for final rinse if possible.');
+  }
   if (LACTIC_PEEL_DAYS.includes(currentDay)) {
     warnings.push('⚠️ Lactic Peel night — skip Niacinamide & Azicalm after the peel.');
   }
   if (AZELAIC_NIGHTS.includes(currentDay)) {
     warnings.push('⚠️ Azelaic Acid night — skip Niacinamide serum tonight.');
   }
-  cw.innerHTML = warnings.map(w => `<div class="conflict-banner"><span>⚠️</span><span>${w}</span></div>`).join('');
+  cw.innerHTML = warnings.map((w, i) => {
+    const style = i === 0 && isWashDay
+      ? 'style="background:#E8F0FF;border-color:#B8C8F0;color:#2A4080;"'
+      : '';
+    return `<div class="conflict-banner" ${style}><span>${w}</span></div>`;
+  }).join('');
 
   // Build content
   const container = document.getElementById('routine-content');
