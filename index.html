@@ -359,9 +359,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       • Take Livogen-Z on empty stomach with lemon water or OJ — never with tea, coffee, or milk<br>
       • Dark stools after Livogen-Z is completely normal — it's the iron<br>
       • D3 Must 60,000 IU: every Sunday only, with food, for 8 weeks<br>
-      • Bixibat 5mg: twice daily after meals × 3 months — do not skip<br>
+      • Bixibat 5mg: 2 tablets together after breakfast — morning only × 3 months<br>
       • Duphalac 15ml: only at bedtime with a full glass of water<br>
-      • Space Livogen-Z at least 2 hours away from Duphalac/Bixibat
+      • Space Livogen-Z at least 1 hour away from Duphalac
     </div>
   </div>
   <div style="margin: 0 16px 10px; background: #E8F5EB; border: 1px solid #C5DFC9; border-radius: var(--radius-sm); padding: 14px;">
@@ -543,7 +543,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <!-- Log period start -->
     <div class="period-log-section">
       <div class="period-log-title">Log Period</div>
-      <div class="period-log-sub">Tap to mark today as period start. This updates all future predictions.</div>
+      <div class="period-log-sub">💡 Tap any date on the calendar above to mark it as a period start. Or use the buttons below for today.</div>
       <button class="period-log-btn" onclick="logPeriodStart()">🩸 Period Started Today</button>
       <button class="period-log-btn-sec" onclick="logPeriodEnd()">✅ Period Ended Today</button>
     </div>
@@ -868,11 +868,11 @@ function buildRoutine(dayIndex) {
       },
       {
         id: 'bixibat-morning-task',
-        name: 'T. Bixibat 5mg',
+        name: 'T. Bixibat 5mg × 2',
         badges: ['Med', 'After Breakfast'],
-        instruction: 'Take 1 tablet after breakfast with water. Prescribed by Dr. Tarun J George (SRM Prime, Gastroenterology) for chronic constipation. Take for full 3 months as prescribed — do not stop early even if constipation improves.',
-        qty: '1 tablet after breakfast',
-        why: '<strong>Why:</strong> Bixibat stimulates bile acid release in the gut, which draws water into the intestine and softens stool naturally. Preventing hard stools is critical for healing the anal fissure and preventing re-injury.',
+        instruction: 'Take BOTH 2 tablets together after breakfast with water. Prescribed by Dr. Tarun J George (SRM Prime, Gastroenterology) for chronic constipation. Take for full 3 months — do not stop early even if constipation improves.',
+        qty: '2 tablets after breakfast',
+        why: '<strong>Why:</strong> Bixibat stimulates bile acid release in the gut, drawing water into the intestine and softening stool naturally. Both tablets are taken in the morning as prescribed — do not split doses.',
         productId: 'shower-gel'
       }
     ]
@@ -973,33 +973,24 @@ function buildRoutine(dayIndex) {
   phases.push({
     id: 'night-medicines',
     title: 'Night Medicines',
-    time: 'After dinner / Before bed',
+    time: 'Before bed',
     tasks: [
-      {
-        id: 'bixibat-night-task',
-        name: 'T. Bixibat 5mg',
-        badges: ['Med', 'After Dinner'],
-        instruction: 'Take 1 tablet after dinner with water. Prescribed by Dr. Tarun J George (SRM Prime) for chronic constipation. Complete the full 3-month course without skipping.',
-        qty: '1 tablet after dinner',
-        why: '<strong>Why:</strong> Bixibat works in the gut to increase water in the intestine, softening stool and reducing straining. Straining worsens the anal fissure — this medicine directly protects fissure healing.',
-        productId: 'shower-gel'
-      },
       {
         id: 'duphalac-night-task',
         name: 'Syp. Duphalac 15ml',
         badges: ['Med', 'Bedtime'],
-        instruction: 'Measure exactly 15ml using a measuring cup. Take at bedtime with a full glass of water. Do not take at the same time as Bixibat — space them by at least 1 hour. Duphalac takes 1–2 days to show effect — do not double dose.',
+        instruction: 'Measure exactly 15ml using a measuring cup. Take at bedtime plain — do not mix with food or juice. Immediately drink one full glass of water (250ml) after. Takes 1–2 days to show effect — do not double dose if no result on day 1.',
         qty: '15ml (3 teaspoons) at bedtime',
-        why: '<strong>Why:</strong> Duphalac (lactulose) is a stool softener that draws water into the colon, making bowel movements soft and painless. Essential for fissure healing — hard stools reinjure the fissure every day.',
+        why: '<strong>Why:</strong> Duphalac softens stool by drawing water into the colon, making bowel movements painless. Essential for fissure healing — hard stools re-injure the fissure every day and prevent recovery.',
         productId: 'shower-gel'
       },
       {
         id: 'sitz-bath-night-task',
         name: '🛁 Sitz Bath (Night)',
         badges: ['Body', 'Medical'],
-        instruction: 'Fill a basin with comfortably warm water. Sit with hips submerged for 10–15 minutes before bed. Pat dry gently. The night sitz bath relaxes the sphincter before sleep, reducing overnight spasm and pain.',
+        instruction: 'Fill a basin with comfortably warm water. Sit with hips submerged for 10–15 minutes before bed. Pat dry gently with soft cloth — never rub. The night sitz bath relaxes the sphincter before sleep, reducing overnight spasm and pain.',
         qty: '10–15 minutes, warm water',
-        why: '<strong>Why:</strong> Night sitz bath promotes overnight healing of the fissure. The warm water effect lasts several hours, reducing the painful sphincter spasm that slows fissure recovery.',
+        why: '<strong>Why:</strong> Night sitz bath promotes overnight healing of the fissure. Warm water relaxes the internal anal sphincter for several hours, reducing the painful spasm that slows fissure recovery.',
         productId: 'shower-gel'
       }
     ]
@@ -1264,11 +1255,10 @@ function resetDay() {
 const SUPPLEMENTS = [
   { id: 'sitz-morning', name: '🛁 Sitz Bath', dose: 'Sit in warm water (hip-deep) for 10–15 minutes. Helps heal anal fissure and relieves discomfort.', timing: 'Morning (After Waking Up)' },
   { id: 'livogen-morning', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ, empty stomach. Never with tea or coffee.', timing: 'Morning (After Waking Up)' },
-  { id: 'bixibat-morning', name: 'T. Bixibat 5mg', dose: '1 tablet — after breakfast. Prescribed for chronic constipation × 3 months.', timing: 'After Breakfast' },
+  { id: 'bixibat-morning', name: 'T. Bixibat 5mg', dose: '2 tablets — after breakfast with water. Both tablets together in the morning as prescribed by Dr. Tarun J George (SRM Prime).', timing: 'After Breakfast' },
   { id: 'd3-sunday', name: 'D3 Must 60,000 IU', dose: '1 tablet — with food, every Sunday only × 8 weeks.', timing: 'After Breakfast (Sundays Only)' },
-  { id: 'bixibat-night', name: 'T. Bixibat 5mg', dose: '1 tablet — after dinner. Keep gap of at least 2 hours from Duphalac.', timing: 'After Dinner' },
-  { id: 'duphalac-night', name: 'Syp. Duphalac 15ml', dose: '15ml syrup — at bedtime. Stool softener. Take with a full glass of water. Do not take with Bixibat simultaneously.', timing: 'Before Bed (Night)' },
-  { id: 'livogen-night', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ. Space 2 hours from Bixibat/Duphalac.', timing: 'Before Bed (Night)' },
+  { id: 'duphalac-night', name: 'Syp. Duphalac 15ml', dose: '15ml syrup — at bedtime with a full glass of water. Measure exactly 15ml. Take plain, do not mix with food or juice.', timing: 'Before Bed (Night)' },
+  { id: 'livogen-night', name: 'Livogen-Z', dose: '1 tablet — with lemon water or OJ. Space 1 hour from Duphalac.', timing: 'Before Bed (Night)' },
   { id: 'sitz-night', name: '🛁 Sitz Bath', dose: 'Sit in warm water (hip-deep) for 10–15 minutes before bed. Relieves fissure pain and promotes healing overnight.', timing: 'Before Bed (Night)' },
 ];
 
@@ -1624,26 +1614,21 @@ function setPeriodData(d) { setState('period_data', d); }
 
 function logPeriodStart() {
   const today = getTodayKey();
-  const data = getPeriodData();
-  if (!data.starts.includes(today)) {
-    data.starts.unshift(today);
-    data.starts = data.starts.slice(0, 24); // keep last 24
-    setPeriodData(data);
-  }
-  renderPeriodTracker();
-  alert('✅ Period start logged for today.');
+  logPeriodStartOnDate(today);
 }
 
 function logPeriodEnd() {
   const today = getTodayKey();
   const data = getPeriodData();
   if (!data.ends.includes(today)) {
-    data.ends.unshift(today);
+    data.ends.push(today);
+    data.ends.sort((a, b) => new Date(b) - new Date(a));
     data.ends = data.ends.slice(0, 24);
     setPeriodData(data);
   }
   renderPeriodTracker();
-  alert('✅ Period end logged for today.');
+  const displayDate = new Date(today).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' });
+  alert(`✅ Period end logged for ${displayDate}.`);
 }
 
 function getLastPeriodStart() {
@@ -1721,21 +1706,61 @@ function renderPeriodCalendar() {
   const daysInMonth = new Date(periodCalYear, periodCalMonth + 1, 0).getDate();
 
   let html = '';
-  // Empty cells before first day
   for (let i = 0; i < firstDay; i++) {
     html += `<div class="cal-day empty"></div>`;
   }
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${periodCalYear}-${String(periodCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     let cls = 'cal-day';
+    let indicator = '';
     if (dateStr === todayStr) cls += ' today';
-    else if (periodDays.has(dateStr)) cls += ' period';
+    else if (periodDays.has(dateStr)) { cls += ' period'; indicator = '🩸'; }
     else if (pmsDays.has(dateStr)) cls += ' pms';
     else if (predictedPeriod.has(dateStr)) cls += ' predicted-period';
     else if (predictedPms.has(dateStr)) cls += ' predicted-pms';
-    html += `<div class="${cls}">${d}</div>`;
+    html += `<div class="${cls}" onclick="onCalDayTap('${dateStr}')" title="${dateStr}">${d}</div>`;
   }
   document.getElementById('period-cal-grid').innerHTML = html;
+}
+
+function onCalDayTap(dateStr) {
+  const { periodDays } = getPredictedDates();
+  const isPeriod = periodDays.has(dateStr);
+  const displayDate = new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Show action sheet
+  const action = isPeriod
+    ? confirm(`${displayDate}\n\nThis is already marked as a period day.\n\nTap OK to remove this period start date, or Cancel to keep it.`)
+    : confirm(`${displayDate}\n\nWhat would you like to mark?\n\nTap OK → Period Started\nTap Cancel → Skip`);
+
+  if (isPeriod) {
+    if (action) removePeriodDate(dateStr);
+  } else {
+    if (action) logPeriodStartOnDate(dateStr);
+  }
+}
+
+function logPeriodStartOnDate(dateStr) {
+  const data = getPeriodData();
+  if (!data.starts.includes(dateStr)) {
+    data.starts.push(dateStr);
+    // Sort descending (most recent first)
+    data.starts.sort((a, b) => new Date(b) - new Date(a));
+    data.starts = data.starts.slice(0, 24);
+    setPeriodData(data);
+  }
+  renderPeriodTracker();
+  const displayDate = new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' });
+  alert(`✅ Period start logged for ${displayDate}.`);
+}
+
+function removePeriodDate(dateStr) {
+  const data = getPeriodData();
+  data.starts = data.starts.filter(d => d !== dateStr);
+  data.ends = data.ends.filter(d => d !== dateStr);
+  setPeriodData(data);
+  renderPeriodTracker();
+  alert('✅ Period date removed.');
 }
 
 function prevMonth() {
